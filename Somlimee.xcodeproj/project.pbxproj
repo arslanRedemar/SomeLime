@@ -10,6 +10,7 @@
 		0DB4A586DCC80EE7EBF5DBA0 /* Pods_Somlimee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E5A735D7FA822DBB91BC78 /* Pods_Somlimee.framework */; };
 		CE15740F2A808CD1003CCE1F /* SomeLiMePTTypeDesc.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE15740E2A808CD1003CCE1F /* SomeLiMePTTypeDesc.swift */; };
 		CE1574122A81160F003CCE1F /* ProfileCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1574112A81160F003CCE1F /* ProfileCardView.swift */; };
+		CE1574142A8B7525003CCE1F /* ProfileTestResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1574132A8B7525003CCE1F /* ProfileTestResultView.swift */; };
 		CE2DD96429C4AF73002AF99B /* HomeNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2DD96329C4AF73002AF99B /* HomeNavBar.swift */; };
 		CE2DD96629C59721002AF99B /* BoardSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2DD96529C59721002AF99B /* BoardSectionView.swift */; };
 		CE2DD96829C59F84002AF99B /* NormalTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2DD96729C59F84002AF99B /* NormalTableView.swift */; };
@@ -74,7 +75,6 @@
 		CE2DDA002A14BC6F002AF99B /* userNameParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2DD9FF2A14BC6F002AF99B /* userNameParser.swift */; };
 		CE2DDA022A1B50EE002AF99B /* ProfileViewRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2DDA012A1B50EE002AF99B /* ProfileViewRepository.swift */; };
 		CE2DDA042A2710FC002AF99B /* MyLimeRoomNotLoggedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2DDA032A2710FC002AF99B /* MyLimeRoomNotLoggedView.swift */; };
-		CE2DDA072A27180D002AF99B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2DDA062A27180D002AF99B /* LoadingView.swift */; };
 		CE2DDA0A2A271AAE002AF99B /* SomLimeColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2DDA092A271AAE002AF99B /* SomLimeColors.swift */; };
 		CE2DDA222A27374C002AF99B /* SpoqaHanSansNeo-Medium.woff in Resources */ = {isa = PBXBuildFile; fileRef = CE2DDA0D2A27374C002AF99B /* SpoqaHanSansNeo-Medium.woff */; };
 		CE2DDA232A27374C002AF99B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = CE2DDA0E2A27374C002AF99B /* LICENSE */; };
@@ -113,6 +113,8 @@
 		CE7A7A1329A87B4B00DDE8A5 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7A7A1229A87B4B00DDE8A5 /* ContainerViewController.swift */; };
 		CE7A7A1829A87B4D00DDE8A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7A7A1729A87B4D00DDE8A5 /* Assets.xcassets */; };
 		CE7A7A1B29A87B4D00DDE8A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE7A7A1929A87B4D00DDE8A5 /* LaunchScreen.storyboard */; };
+		CEA8E5CC2AA0896500C98E9C /* loadingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA8E5CB2AA0896500C98E9C /* loadingExtensions.swift */; };
+		CEA8E5CF2AA0990800C98E9C /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA8E5CE2AA0990800C98E9C /* HomeTabView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -121,6 +123,7 @@
 		CC0206F4DEE857BC1A7DEA97 /* Pods-Somlimee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Somlimee.debug.xcconfig"; path = "Target Support Files/Pods-Somlimee/Pods-Somlimee.debug.xcconfig"; sourceTree = "<group>"; };
 		CE15740E2A808CD1003CCE1F /* SomeLiMePTTypeDesc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeLiMePTTypeDesc.swift; sourceTree = "<group>"; };
 		CE1574112A81160F003CCE1F /* ProfileCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCardView.swift; sourceTree = "<group>"; };
+		CE1574132A8B7525003CCE1F /* ProfileTestResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTestResultView.swift; sourceTree = "<group>"; };
 		CE2DD96329C4AF73002AF99B /* HomeNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavBar.swift; sourceTree = "<group>"; };
 		CE2DD96529C59721002AF99B /* BoardSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSectionView.swift; sourceTree = "<group>"; };
 		CE2DD96729C59F84002AF99B /* NormalTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalTableView.swift; sourceTree = "<group>"; };
@@ -185,7 +188,6 @@
 		CE2DD9FF2A14BC6F002AF99B /* userNameParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userNameParser.swift; sourceTree = "<group>"; };
 		CE2DDA012A1B50EE002AF99B /* ProfileViewRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewRepository.swift; sourceTree = "<group>"; };
 		CE2DDA032A2710FC002AF99B /* MyLimeRoomNotLoggedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLimeRoomNotLoggedView.swift; sourceTree = "<group>"; };
-		CE2DDA062A27180D002AF99B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		CE2DDA092A271AAE002AF99B /* SomLimeColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomLimeColors.swift; sourceTree = "<group>"; };
 		CE2DDA0D2A27374C002AF99B /* SpoqaHanSansNeo-Medium.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpoqaHanSansNeo-Medium.woff"; sourceTree = "<group>"; };
 		CE2DDA0E2A27374C002AF99B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -226,6 +228,8 @@
 		CE7A7A1729A87B4D00DDE8A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE7A7A1A29A87B4D00DDE8A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE7A7A1C29A87B4D00DDE8A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEA8E5CB2AA0896500C98E9C /* loadingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loadingExtensions.swift; sourceTree = "<group>"; };
+		CEA8E5CE2AA0990800C98E9C /* HomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				CE1574112A81160F003CCE1F /* ProfileCardView.swift */,
+				CE1574132A8B7525003CCE1F /* ProfileTestResultView.swift */,
 			);
 			path = ProfileVC;
 			sourceTree = "<group>";
@@ -285,7 +290,6 @@
 				CE2DD99D29D2DEA2002AF99B /* Functions */,
 				CE2DD9BE29D8264E002AF99B /* SQLiteDatabaseCommands.swift */,
 				CE2DDA092A271AAE002AF99B /* SomLimeColors.swift */,
-				CE2DDA3B2A275EA2002AF99B /* imageShadowExt.swift */,
 				CE370DA62A7E772F00CFCD6B /* SomLiMeTestBeta.swift */,
 				CE2DDA372A27393D002AF99B /* SomLimeFonts.swift */,
 				CE15740E2A808CD1003CCE1F /* SomeLiMePTTypeDesc.swift */,
@@ -320,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				CE2DD9FF2A14BC6F002AF99B /* userNameParser.swift */,
+				CEA8E5CD2AA0896F00C98E9C /* Extensions */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -344,7 +349,6 @@
 			isa = PBXGroup;
 			children = (
 				CE370DA82A7F689200CFCD6B /* PTChartView.swift */,
-				CE2DDA062A27180D002AF99B /* LoadingView.swift */,
 			);
 			path = Commons;
 			sourceTree = "<group>";
@@ -414,6 +418,7 @@
 				CE4F263A29B4D07F0037AA30 /* LabelCollectionView.swift */,
 				CE2DDA082A271878002AF99B /* Commons */,
 				CE2DD9F029F3A73A002AF99B /* BoardTapView.swift */,
+				CEA8E5CE2AA0990800C98E9C /* HomeTabView.swift */,
 				CE2DD96529C59721002AF99B /* BoardSectionView.swift */,
 				CE2DD96729C59F84002AF99B /* NormalTableView.swift */,
 				CE2DD9F429F7B71E002AF99B /* BoardTableView.swift */,
@@ -498,6 +503,15 @@
 				CE7A7A1929A87B4D00DDE8A5 /* LaunchScreen.storyboard */,
 			);
 			path = Somlimee;
+			sourceTree = "<group>";
+		};
+		CEA8E5CD2AA0896F00C98E9C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CE2DDA3B2A275EA2002AF99B /* imageShadowExt.swift */,
+				CEA8E5CB2AA0896500C98E9C /* loadingExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -642,6 +656,7 @@
 				CE2DD99B29D2DB90002AF99B /* SearchRealTimeData.swift in Sources */,
 				CE2DD98729D2BE02002AF99B /* LimeTrendsData.swift in Sources */,
 				CE2DD96E29C827B7002AF99B /* SearchViewController.swift in Sources */,
+				CEA8E5CC2AA0896500C98E9C /* loadingExtensions.swift in Sources */,
 				CE2DDA3C2A275EA2002AF99B /* imageShadowExt.swift in Sources */,
 				CE2DD9BF29D8264E002AF99B /* SQLiteDatabaseCommands.swift in Sources */,
 				CE2DD98F29D2D58B002AF99B /* ProfileData.swift in Sources */,
@@ -675,6 +690,7 @@
 				CE2DD9BB29D7FFDC002AF99B /* UserSignUpFailures.swift in Sources */,
 				CE2DD9B129D7205F002AF99B /* UserSignUpWithEmailService.swift in Sources */,
 				CE2DD9ED29F100BA002AF99B /* SQLiteDatabaseFailures.swift in Sources */,
+				CE1574142A8B7525003CCE1F /* ProfileTestResultView.swift in Sources */,
 				CE2DD9FB2A068997002AF99B /* BoardPostNavBar.swift in Sources */,
 				CE2DD97E29CC2717002AF99B /* ProfileViewController.swift in Sources */,
 				CE2DDA002A14BC6F002AF99B /* userNameParser.swift in Sources */,
@@ -688,6 +704,7 @@
 				CE1574122A81160F003CCE1F /* ProfileCardView.swift in Sources */,
 				CE2DD9C529D858EC002AF99B /* LocalDataSourceFailures.swift in Sources */,
 				CE2DD9F529F7B71E002AF99B /* BoardTableView.swift in Sources */,
+				CEA8E5CF2AA0990800C98E9C /* HomeTabView.swift in Sources */,
 				CE2DD9A929D425E0002AF99B /* BoardInfoData.swift in Sources */,
 				CE2DD9D529DAEBEC002AF99B /* PersonalityTestViewController.swift in Sources */,
 				CE7A7A1129A87B4B00DDE8A5 /* SceneDelegate.swift in Sources */,
@@ -716,7 +733,6 @@
 				CE2DD98929D2BFA2002AF99B /* HotBoardRankingData.swift in Sources */,
 				CE2DD9F129F3A73A002AF99B /* BoardTapView.swift in Sources */,
 				CE2DDA442A384687002AF99B /* LimeTrendCollectionView.swift in Sources */,
-				CE2DDA072A27180D002AF99B /* LoadingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

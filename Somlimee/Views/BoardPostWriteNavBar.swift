@@ -26,7 +26,7 @@ class BoardPostWriteNavBar: UIView {
     @objc private func onTouchUpBack(){
         onTouchUpBackButton?()
     }
-    @objc private func onTouchUpWrite(){
+    @objc private func onTouchUpProfile(){
         onTouchUpWriteButton?()
     }
     
@@ -66,7 +66,7 @@ class BoardPostWriteNavBar: UIView {
         writeButton.setTitle("업로드", for: .normal)
         writeButton.setTitleColor(.label, for: .normal)
         writeButton.tintColor = .label
-        writeButton.addTarget(self, action: #selector(onTouchUpWrite), for: .touchUpInside)
+        writeButton.addTarget(self, action: #selector(onTouchUpProfile), for: .touchUpInside)
         backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         backButton.tintColor = .label
         backButton.addTarget(self, action: #selector(onTouchUpBack), for: .touchUpInside)

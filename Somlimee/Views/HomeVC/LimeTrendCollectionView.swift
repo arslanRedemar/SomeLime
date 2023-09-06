@@ -56,7 +56,7 @@ class LimeTrendCollectionView: UIView {
         
         //컬렉션 뷰 설정
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = UIColor(cgColor: SomLimeColors.backgroundColor)
+        collectionView.backgroundColor = SomLimeColors.backgroundColor
         
         //타이틀 설정
         title.text = "라임 트렌드"
@@ -148,7 +148,7 @@ class LimeTrendCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.hanSansNeoMedium(size: 16)
         label.textAlignment = .center
         label.textColor = .label
-        label.backgroundColor =  UIColor(cgColor:SomLimeColors.primaryColor)
+        label.backgroundColor =  SomLimeColors.primaryColor
         return label
     }()
     

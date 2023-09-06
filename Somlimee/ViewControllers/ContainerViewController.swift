@@ -16,6 +16,8 @@ final class ContainerViewController: UIViewController {
     
     let homeVC: HomeViewController = HomeViewController()
     
+    let boardVC: BoardViewController = BoardViewController()
+    
     let profileVC: ProfileViewController = ProfileViewController()
     
     let sideMenuVC: SideMenuViewController = SideMenuViewController()
@@ -24,7 +26,6 @@ final class ContainerViewController: UIViewController {
     // MARK: - UI Object Views Properties List
     
     func addChildVC(){
-        
         
         addChild(sideMenuVC)
         sideMenuVC.didMove(toParent: self)
@@ -44,12 +45,15 @@ final class ContainerViewController: UIViewController {
         
         // add dependencies
         homeVC.repository = HomeViewRepositoryImpl()
+        
         offSetValue = view.frame.width * 0.8
+        
         NSLayoutConstraint.activate([
             profileVC.view.heightAnchor.constraint(equalTo: view.heightAnchor),
             profileVC.view.widthAnchor.constraint(equalToConstant: view.frame.width * 0.8),
             profileVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+        
         NSLayoutConstraint.activate([
             sideMenuVC.view.heightAnchor.constraint(equalTo: view.heightAnchor),
             sideMenuVC.view.widthAnchor.constraint(equalToConstant: view.frame.width * 0.8),
@@ -78,7 +82,6 @@ final class ContainerViewController: UIViewController {
                 self.navigationVC.view.frame.origin.x = 0
                 self.sideMenuVC.view.frame.origin.x = -self.offSetValue
                 self.profileVC.view.frame.origin.x = self.view.frame.width
-                
             })
         }
         
@@ -87,7 +90,6 @@ final class ContainerViewController: UIViewController {
                 self.navigationVC.view.frame.origin.x = 0
                 self.sideMenuVC.view.frame.origin.x = -self.offSetValue
                 self.profileVC.view.frame.origin.x = self.view.frame.width
-                
             }, completion: {isComp in self.navigationVC.pushViewController(LogInViewController(), animated: true)
                 self.homeVC.fogTouchUP()
             })

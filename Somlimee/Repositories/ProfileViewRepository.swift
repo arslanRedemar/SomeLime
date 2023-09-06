@@ -46,6 +46,6 @@ class ProfileViewRepositoryImpl: ProfileViewRepository{
         }
 //        guard let recentPostList: [String: Any] = data?["RecentPosts"] as? [String: Any] else{
 //                throw DataSourceFailures.CouldNotFindDocument
-        return ProfileData(userName: userName, profileImage: nil, totalUps: totalUps, signUpDate: signUpDate, numOfPosts: numOfPosts, receivedUps: receivedUps, points: points, daysOfActive: daysOfActive, badges: [], personalityTestResult: PersonalityTestResultData(Strenuousness: personalityTestResult[0], Receptiveness: personalityTestResult[0], Harmonization: personalityTestResult[0], Coagulation: personalityTestResult[0], type: "NDD"), personalityType: personalityType)
+        return ProfileData(userName: userName, profileImage: nil, totalUps: totalUps, signUpDate: signUpDate, numOfPosts: numOfPosts, receivedUps: receivedUps, points: points, daysOfActive: daysOfActive, badges: [], personalityTestResult: PersonalityTestResultData(Strenuousness: personalityTestResult[0], Receptiveness: personalityTestResult[1], Harmonization: personalityTestResult[2], Coagulation: personalityTestResult[3], type: personalityType), personalityType: personalityType)
     }
 }

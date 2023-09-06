@@ -1,13 +1,13 @@
 //
-//  BoardTapView.swift
+//  HomeTabView.swift
 //  Somlimee
 //
-//  Created by Chanhee on 2023/04/22.
+//  Created by Chanhee on 2023/08/31.
 //
 
 import UIKit
 
-class BoardTapView: UIView {
+class HomeTabView: UIView {
     
     // MARK: - Contents Data
     public var tapList: [String]?{
@@ -17,13 +17,15 @@ class BoardTapView: UIView {
         }
     }
     // MARK: - UI Objects
+    
     var cellClicked: ((String?) -> Void)?
     
     private let collectionView: UICollectionView = {
+        
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.register(BoardTapViewCell.self, forCellWithReuseIdentifier: "cellID")
+        collectionView.register(HomeTabViewCell.self, forCellWithReuseIdentifier: "cellID")
         return collectionView
     }()
     
@@ -33,23 +35,23 @@ class BoardTapView: UIView {
         configure()
         setUpLayout()
     }
-    
     private func configure(){
         collectionView.isScrollEnabled = false
         self.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsHorizontalScrollIndicator = false
+        
     }
     private func setUpLayout() {
         
         self.addSubview(collectionView)
+        
         NSLayoutConstraint.activate([
             collectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             collectionView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             collectionView.widthAnchor.constraint(equalTo: self.widthAnchor),
             collectionView.heightAnchor.constraint(equalTo: self.heightAnchor)
         ])
-        
     }
     
     
@@ -63,27 +65,30 @@ class BoardTapView: UIView {
     }
 }
 // MARK: - DataSource and Delegate Method
-extension BoardTapView: UICollectionViewDataSource, UICollectionViewDelegate{
+extension HomeTabView: UICollectionViewDataSource, UICollectionViewDelegate{
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tapList?.count ?? 0
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellID", for: indexPath) as! BoardTapViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellID", for: indexPath) as! HomeTabViewCell
         cell.index = indexPath.item
         cell.text = tapList?[indexPath.item] ?? ""
         return cell
     }
 }
-extension BoardTapView: UICollectionViewDelegateFlowLayout{
+extension HomeTabView: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! BoardTapViewCell
+        let cell = collectionView.cellForItem(at: indexPath) as! HomeTabViewCell
         cellClicked?(cell.cellLabel.text)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let button = UIButton()
         button.setTitle(tapList?[indexPath.item] ?? "", for: .normal)
-        return CGSize(width: collectionView.frame.width/(Double(tapList?.count ?? 0) + 1.0), height: button.intrinsicContentSize.height)
+        return CGSize(width: (button.intrinsicContentSize.width + 10), height: button.intrinsicContentSize.height)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
@@ -99,28 +104,21 @@ extension BoardTapView: UICollectionViewDelegateFlowLayout{
 
 
 // MARK: - Cell
-class BoardTapViewCell: UICollectionViewCell {
-    var cellColor: UIColor = SomLimeColors.label
+class HomeTabViewCell: UICollectionViewCell {
+    var cellColor: UIColor = SomLimeColors.lightPrimaryColor
     var index: Int = 0
     var text : String = "" {didSet{cellLabel.text = text}}
     override var isSelected: Bool {
         didSet{
             if isSelected{
                 self.cellColor = SomLimeColors.primaryColor
-                self.bottomBorderLine.backgroundColor = SomLimeColors.primaryColor
             }else{
-                self.cellColor = SomLimeColors.label
-                self.bottomBorderLine.backgroundColor = SomLimeColors.backgroundColor
+                self.cellColor = SomLimeColors.lightPrimaryColor
             }
-            cellLabel.textColor = cellColor
+            container.backgroundColor = cellColor
         }
     }
     let container: UIView = {
-        let view: UIView = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    let bottomBorderLine: UIView = {
         let view: UIView = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -137,8 +135,8 @@ class BoardTapViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         
-        cellLabel.textColor = cellColor
-        bottomBorderLine.backgroundColor = SomLimeColors.backgroundColor
+        container.backgroundColor = cellColor
+        
         contentView.addSubview(container)
         
         container.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
@@ -147,12 +145,6 @@ class BoardTapViewCell: UICollectionViewCell {
         container.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         
         container.addSubview(cellLabel)
-        container.addSubview(bottomBorderLine)
-        
-        bottomBorderLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
-        bottomBorderLine.widthAnchor.constraint(equalTo: cellLabel.widthAnchor, constant: -5).isActive = true
-        bottomBorderLine.centerXAnchor.constraint(equalTo: cellLabel.centerXAnchor).isActive = true
-        bottomBorderLine.topAnchor.constraint(equalTo: container.bottomAnchor, constant: -2).isActive = true
         
         cellLabel.topAnchor.constraint(equalTo: container.topAnchor).isActive = true
         cellLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor).isActive = true
@@ -165,5 +157,3 @@ class BoardTapViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-

@@ -21,6 +21,7 @@ class SearchViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     let emptyViewBoxForNavigationSpace: UIView = {
         let view = UIView()
         view.backgroundColor = .systemBackground

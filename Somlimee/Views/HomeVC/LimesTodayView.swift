@@ -46,14 +46,14 @@ class LimesTodayView: UIStackView {
     
 }
 //상단의 탭 바 클래스
-fileprivate class TapBarItem: BoardTapView{
+fileprivate class TapBarItem: HomeTabView{
     override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let text = tapList?[indexPath.item] ?? "eoif"
         let width = text.width(withConstrainedHeight: 24, font: UIFont.hanSansNeoMedium(size: 14)) + 30
         return CGSize(width: width, height: 30) // 캡슐 높이는 고정값
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellID", for: indexPath) as! BoardTapViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellID", for: indexPath) as! HomeTabViewCell
         cell.index = indexPath.item
         cell.text = tapList?[indexPath.item] ?? ""
         if (indexPath.item == 0){
@@ -128,8 +128,8 @@ class LimesTodayTapView: UIViewController {
         boardTapView.tapList = tabTitles
         horizontalLine1.translatesAutoresizingMaskIntoConstraints = false
         horizontalLine2.translatesAutoresizingMaskIntoConstraints = false
-        horizontalLine1.backgroundColor = UIColor(cgColor: SomLimeColors.primaryColor)
-        horizontalLine2.backgroundColor = UIColor(cgColor: SomLimeColors.lightPrimaryColor)
+        horizontalLine1.backgroundColor = SomLimeColors.primaryColor
+        horizontalLine2.backgroundColor = SomLimeColors.lightPrimaryColor
         Task.init {
             do{
                 self.tableView.data = try await self.repository?.getBoardHotPostsList(boardName: self.currentTab, startTime: "NaN", counts: 10) ?? []
@@ -244,7 +244,7 @@ fileprivate class CustomTableViewCell: UITableViewCell {
     let commentLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor(cgColor: SomLimeColors.secondaryColor)
+        label.textColor = SomLimeColors.secondaryColor
         label.font = UIFont.hanSansNeoMedium(size: 14)
         return label
     }()

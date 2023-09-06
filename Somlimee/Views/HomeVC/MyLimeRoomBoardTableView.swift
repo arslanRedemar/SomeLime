@@ -76,7 +76,7 @@ class MyLimeRoomBoardTableViewCell: UITableViewCell{
     let time = {
         let label = UILabel()
         label.font = .hanSansNeoRegular(size: 14)
-        label.textColor = UIColor(cgColor: SomLimeColors.systemGrayLight)
+        label.textColor = SomLimeColors.systemGrayLight
         return label
     }()
     let view = UIView()

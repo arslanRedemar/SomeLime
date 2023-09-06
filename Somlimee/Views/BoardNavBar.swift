@@ -29,7 +29,7 @@ class BoardNavBar: UIView {
     let title = UILabel()
     let dropDownButton = UIButton()
     let backButton = UIButton()
-    let writeButton = UIButton()
+    let profileButton = UIButton()
     let blurEffect = UIBlurEffect(style: .regular)
     let container = UIVisualEffectView()
     let screenSize: CGRect = UIScreen.main.bounds
@@ -43,11 +43,10 @@ class BoardNavBar: UIView {
     var dropDownTableClicked: ((String)->Void)?
     var onTouchUpDropDownNav: (()->Void)?
     var onTouchUpBackButton: (()->Void)?
-    var onTouchUpWriteButton: (()->Void)?
+    var onTouchUpProfileButton: (()->Void)?
     var isDropDown: Bool = false {
         didSet{
             if isDropDown{
-                
                     UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn ,animations: {
                         self.dropDownButton.transform = CGAffineTransform(rotationAngle: .pi)
                         self.dropDownTableHeightConstraint.constant += self.screenSize.height * self.multiplierOfDropDownTable
@@ -81,8 +80,8 @@ class BoardNavBar: UIView {
     @objc private func onTouchUpBack(){
         onTouchUpBackButton?()
     }
-    @objc private func onTouchUpWrite(){
-        onTouchUpWriteButton?()
+    @objc private func onTouchUpProfile(){
+        onTouchUpProfileButton?()
     }
     @objc private func dropDownButtonTouchUp(){
         if isDropDown{
@@ -131,7 +130,7 @@ class BoardNavBar: UIView {
         dropDownTableContainer.contentView.translatesAutoresizingMaskIntoConstraints = false
         dropDownTableContainer.translatesAutoresizingMaskIntoConstraints = false
         dropDownTable.translatesAutoresizingMaskIntoConstraints = false
-        writeButton.translatesAutoresizingMaskIntoConstraints = false
+        profileButton.translatesAutoresizingMaskIntoConstraints = false
         
         //Data assignment
         viewHeightConstraint = self.heightAnchor.constraint(equalToConstant: screenSize.height * defaultMultiplierOfHeight)
@@ -146,10 +145,10 @@ class BoardNavBar: UIView {
         dropDownButton.addTarget(self, action: #selector(dropDownButtonTouchUp), for: .touchUpInside)
         searchButton.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         searchButton.tintColor = .label
-        writeButton.setTitle("글쓰기", for: .normal)
-        writeButton.setTitleColor(.label, for: .normal)
-        writeButton.tintColor = .label
-        writeButton.addTarget(self, action: #selector(onTouchUpWrite), for: .touchUpInside)
+        profileButton.setTitle("글쓰기", for: .normal)
+        profileButton.setTitleColor(.label, for: .normal)
+        profileButton.tintColor = .label
+        profileButton.addTarget(self, action: #selector(onTouchUpProfile), for: .touchUpInside)
         backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         backButton.tintColor = .label
         backButton.addTarget(self, action: #selector(onTouchUpBack), for: .touchUpInside)
@@ -166,7 +165,7 @@ class BoardNavBar: UIView {
         container.contentView.addSubview(backButton)
         dropDownTableContainer.contentView.addSubview(dropDownTable)
         buttonGroups.addArrangedSubview(searchButton)
-        buttonGroups.addArrangedSubview(writeButton)
+        buttonGroups.addArrangedSubview(profileButton)
         titleView.addArrangedSubview(title)
         titleView.addArrangedSubview(dropDownButton)
         titleView.distribution = .fill

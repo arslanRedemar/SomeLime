@@ -13,11 +13,11 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     var isPasswordConfirmed = false {
         didSet{
             if isPasswordConfirmed {
-                confirmIndicator.backgroundColor = UIColor(cgColor: SomLimeColors.primaryColor)
+                confirmIndicator.backgroundColor = SomLimeColors.primaryColor
                 confirmIndicator.setNeedsLayout()
                 confirmIndicator.layoutIfNeeded()
             }else{
-                confirmIndicator.backgroundColor = UIColor(cgColor: SomLimeColors.secondaryColor)
+                confirmIndicator.backgroundColor = SomLimeColors.secondaryColor
                 confirmIndicator.setNeedsLayout()
                 confirmIndicator.layoutIfNeeded()
             }
@@ -41,7 +41,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         label.textColor = .white
         label.text = "일치"
         label.font = UIFont.hanSansNeoBold(size: 14)
-        label.backgroundColor = UIColor(cgColor: SomLimeColors.primaryColor)
+        label.backgroundColor = SomLimeColors.primaryColor
         return label
     }()
     

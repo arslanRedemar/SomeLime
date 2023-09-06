@@ -117,8 +117,10 @@ class HomeViewController: UIViewController {
     }
     func loadData(){
         //        otherLimeRoomScrollView.reload()
+        
         Task.init {
             do{
+                self.startLoading()
                 self.limeTrendCollectionView.data = try await repository?.getLimeTrendsData()?.trendsList ?? []
                 guard let uid = Auth.auth().currentUser?.uid else{
                     return
@@ -128,10 +130,11 @@ class HomeViewController: UIViewController {
                 }
                 self.myRoomName = typeName
                 self.myLimeRoomLoggedView.boardName = self.myRoomName
-            
                 print(">>>> typeName: \(typeName)")
+                self.stopLoading()
             }catch{
                 print(">>>> myTypeName 가져오는데 실패\(error)")
+                self.stopLoading()
             }
         }
     }

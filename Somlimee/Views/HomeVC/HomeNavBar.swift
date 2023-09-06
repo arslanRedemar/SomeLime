@@ -130,7 +130,7 @@ class HomeNavBar: UIView {
         
         //Auto layout pre-setup
         
-        //        self.backgroundColor = .blue
+        //self.backgroundColor = .blue
         self.translatesAutoresizingMaskIntoConstraints = false
         container.contentView.translatesAutoresizingMaskIntoConstraints = false
         container.translatesAutoresizingMaskIntoConstraints = false
@@ -188,12 +188,12 @@ class HomeNavBar: UIView {
         titleView.spacing = 5
         
         
-        leftDrawerButton.leadingAnchor.constraint(equalTo:container.contentView.leadingAnchor, constant: 10).isActive = true
-        leftDrawerButton.bottomAnchor.constraint(equalTo:container.contentView.bottomAnchor, constant: -10).isActive = true
-        buttonGroups.trailingAnchor.constraint(equalTo:container.contentView.trailingAnchor, constant: -10).isActive = true
-        buttonGroups.bottomAnchor.constraint(equalTo:         container.contentView.bottomAnchor, constant: -10).isActive = true
-        titleView.centerXAnchor.constraint(equalTo:         container.contentView.centerXAnchor).isActive = true
-        titleView.bottomAnchor.constraint(equalTo:         container.contentView.bottomAnchor, constant: -10).isActive = true
+        leftDrawerButton.leadingAnchor.constraint(equalTo: container.contentView.leadingAnchor, constant: 10).isActive = true
+        leftDrawerButton.bottomAnchor.constraint(equalTo: container.contentView.bottomAnchor, constant: -10).isActive = true
+        buttonGroups.trailingAnchor.constraint(equalTo: container.contentView.trailingAnchor, constant: -10).isActive = true
+        buttonGroups.bottomAnchor.constraint(equalTo: container.contentView.bottomAnchor, constant: -10).isActive = true
+        titleView.centerXAnchor.constraint(equalTo: container.contentView.centerXAnchor).isActive = true
+        titleView.bottomAnchor.constraint(equalTo: container.contentView.bottomAnchor, constant: -10).isActive = true
         
         NSLayoutConstraint.activate([
             viewWidthConsstraint,

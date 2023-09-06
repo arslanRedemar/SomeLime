@@ -110,7 +110,7 @@ class ProfileCardView: UIView {
     
     private func setup(){
         
-        backgroundColor = UIColor(cgColor: SomLimeColors.primaryColor)
+        backgroundColor = SomLimeColors.primaryColor
         layer.cornerRadius = 20
         
         cardContainerVStack.axis = .vertical
@@ -153,7 +153,7 @@ class ProfileCardView: UIView {
         nameContainer.addArrangedSubview(userNameLabelRight)
         
         userNameLabel.font = .hanSansNeoMedium(size: 21)
-        userNameLabel.textColor = UIColor(cgColor: SomLimeColors.darkPrimaryColor)
+        userNameLabel.textColor = SomLimeColors.darkPrimaryColor
         userNameLabelRight.font = .hanSansNeoRegular(size: 16)
         userNameLabelRight.textColor = .white
         userNameLabelRight.text = "님"
@@ -255,9 +255,9 @@ class ProfileCardView: UIView {
         daysOfActiveNum.textColor = .white
         daysOfActiveNum.textAlignment = .center
         
-        verticalLine1.backgroundColor = UIColor(cgColor: SomLimeColors.lightPrimaryColor)
-        verticalLine2.backgroundColor = UIColor(cgColor: SomLimeColors.lightPrimaryColor)
-        verticalLine3.backgroundColor = UIColor(cgColor: SomLimeColors.lightPrimaryColor)
+        verticalLine1.backgroundColor = SomLimeColors.lightPrimaryColor
+        verticalLine2.backgroundColor = SomLimeColors.lightPrimaryColor
+        verticalLine3.backgroundColor = SomLimeColors.lightPrimaryColor
         
     }
     private func layout(){

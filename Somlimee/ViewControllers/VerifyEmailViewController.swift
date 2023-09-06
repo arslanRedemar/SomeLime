@@ -64,8 +64,8 @@ class VerifyEmailViewController: UIViewController{
             }
             if (Auth.auth().currentUser?.isEmailVerified ?? false) {
                 self.checkBoxLabel.text = "이메일 인증 완료"
-                self.checkBoxLabel.textColor = UIColor(cgColor: SomLimeColors.label)
-                self.checkBoxContainerStackView.backgroundColor = UIColor(cgColor: SomLimeColors.primaryColor)
+                self.checkBoxLabel.textColor = SomLimeColors.labelLight
+                self.checkBoxContainerStackView.backgroundColor = SomLimeColors.primaryColor
                 self.emailResendButton.isHidden = true
                 self.textView2.isHidden = true
                 try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
@@ -104,7 +104,7 @@ class VerifyEmailViewController: UIViewController{
         imageView.translatesAutoresizingMaskIntoConstraints = false
         textView2.translatesAutoresizingMaskIntoConstraints = false
         timerLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(cgColor: SomLimeColors.backgroundColor)
+        view.backgroundColor = SomLimeColors.backgroundColor
         imageView.contentMode = .scaleAspectFit
         checkBoxLabel.text = "이메일 인증 미완료"
         checkBoxLabel.textColor = .red
@@ -113,9 +113,9 @@ class VerifyEmailViewController: UIViewController{
         stackView.distribution = .fill
         stackView.spacing = 10
         timerLabel.font = .hanSansNeoBold(size: 20)
-        timerLabel.textColor = UIColor(cgColor: SomLimeColors.primaryColor)
+        timerLabel.textColor = SomLimeColors.primaryColor
         timerLabel.textAlignment = .center
-        emailResendButton.setTitleColor(UIColor(cgColor: SomLimeColors.primaryColor), for: .normal)
+        emailResendButton.setTitleColor(SomLimeColors.primaryColor, for: .normal)
         emailResendButton.addTarget(self, action: #selector(verifyButtonTouched), for: .touchUpInside)
         emailResendButton.setAttributedTitle(NSAttributedString(AttributedString("인증메일 재전송", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.hanSansNeoMedium(size: 14)]))), for: .normal)
         textView.text = "이메일 인증을 완료해야 활동이 가능합니다.\n 인증 완료하지 않을 시에 5일 후에 계정이\n삭제됩니다."
@@ -129,7 +129,7 @@ class VerifyEmailViewController: UIViewController{
         textView2.textAlignment = .center
         checkBoxContainerStackView.axis = .horizontal
         checkBoxContainerStackView.distribution = .fill
-        checkBoxContainerStackView.backgroundColor = UIColor(cgColor: SomLimeColors.systemGrayLight)
+        checkBoxContainerStackView.backgroundColor = SomLimeColors.systemGrayLight
         checkBoxContainerStackView.layer.cornerRadius = 15
         checkBoxLabel.textAlignment = .center
         view.addSubview(stackView)

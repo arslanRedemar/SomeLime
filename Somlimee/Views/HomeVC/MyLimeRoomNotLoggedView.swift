@@ -19,7 +19,6 @@ class MyLimeRoomNotLoggedView: UIView {
     let myLimeRoomContentContainer: UIStackView = UIStackView()
     
     // - 로딩 뷰
-    let loadingView: LoadingView = LoadingView()
     
     // - 비로그인 뷰
     private let myLimeRoomNotLoggedInMessage: UILabel = UILabel()
@@ -58,7 +57,7 @@ class MyLimeRoomNotLoggedView: UIView {
         myLimeRoomContentContainer.layer.cornerRadius = 20
         myLimeRoomContentContainer.isLayoutMarginsRelativeArrangement = true
         myLimeRoomContentContainer.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 20, leading: 10, bottom: 20, trailing: 10)
-        myLimeRoomContentContainer.backgroundColor = UIColor(cgColor: SomLimeColors.systemGrayLight)
+        myLimeRoomContentContainer.backgroundColor = SomLimeColors.systemGrayLight
         myLimeRoomTitle.text = "나의 라임방"
         myLimeRoomTitle.textColor = .label
         myLimeRoomTitle.font = UIFont.hanSansNeoBold(size: 21)
@@ -74,7 +73,7 @@ class MyLimeRoomNotLoggedView: UIView {
         var filled = UIButton.Configuration.filled()
         filled.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 25, bottom: 5, trailing: 25)
         filled.baseForegroundColor = .label
-        filled.baseBackgroundColor = UIColor(cgColor: SomLimeColors.primaryColor)
+        filled.baseBackgroundColor = SomLimeColors.primaryColor
         filled.cornerStyle = .capsule
         filled.attributedTitle = AttributedString("로그인 하러가기", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.hanSansNeoMedium(size: 16)]))
         myLimeRoomNotLoggedInButton.configuration = filled

@@ -143,7 +143,7 @@ class LogInViewController: UIViewController {
         loginButton.translatesAutoresizingMaskIntoConstraints = false
         loginButton.setTitle("로그인", for: .normal)
         loginButton.setTitleColor(.white, for: .normal)
-        loginButton.backgroundColor = UIColor(cgColor: SomLimeColors.primaryColor)
+        loginButton.backgroundColor = SomLimeColors.primaryColor
         loginButton.layer.cornerRadius = 15
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         

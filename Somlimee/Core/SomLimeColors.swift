@@ -8,13 +8,15 @@
 import UIKit
 
 enum SomLimeColors{
-    static let primaryColor: CGColor = CGColor(red: 0.482, green: 0.651, blue: 0.784, alpha: 1)
-    static let darkPrimaryColor: CGColor = CGColor(red: 0.002, green: 0.071, blue: 0.254, alpha: 1)
-    static let lightPrimaryColor: CGColor = CGColor(red: 0.8, green: 0.855, blue: 0.898, alpha: 1)
-    static let secondaryColor: CGColor = CGColor(red: 0x00/255, green: 0x87/255, blue: 0x26/255, alpha: 1)
-    static let systemGrayLight: CGColor = CGColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 1)
-    static let backgroundColor: CGColor = CGColor(red: 1, green: 1, blue: 1, alpha: 1)
-    static let label: CGColor = CGColor(red: 1, green: 1, blue: 1, alpha: 1)
+    static let primaryColor: UIColor = UIColor(named: "primaryColor")!
+    static let darkPrimaryColor: UIColor = UIColor(named: "darkPrimaryColor")!
+    static let lightPrimaryColor: UIColor = UIColor(named: "lightPrimaryColor")!
+    static let secondaryColor: UIColor = UIColor(named: "secondaryColor")!
+    static let systemGrayLight: UIColor = UIColor(named: "systemGrayLight")!
+    static let backgroundColor: UIColor = UIColor(named: "backgroundColor")!
+    static let labelLight: UIColor = UIColor(named: "white")!
+    static let labelDark: UIColor = UIColor(named: "black")!
+    static let label: UIColor = UIColor(named: "label")!
 }
 
 //7BA6C8

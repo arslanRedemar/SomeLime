@@ -121,7 +121,7 @@ class BoardViewController: UIViewController {
         boardNavBar.onTouchUpBackButton = {
             self.navigationController?.popViewController(animated: true)
         }
-        boardNavBar.onTouchUpWriteButton = {
+        boardNavBar.onTouchUpProfileButton = {
             self.navigationController?.pushViewController(BoardPostWriteViewController(boardName: self.boardName), animated: true)
         }
         boardNavBar.dropDownTableClicked = { name in
@@ -143,7 +143,7 @@ class BoardViewController: UIViewController {
     private func layout(){
         NSLayoutConstraint.activate([
             boardTapView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.05),
-            boardTapView.widthAnchor.constraint(equalToConstant: view.frame.width),
+            boardTapView.widthAnchor.constraint(equalTo: view.widthAnchor),
             boardTapView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height*0.12)
         ])
         NSLayoutConstraint.activate([
@@ -220,7 +220,7 @@ class BoardViewController: UIViewController {
         addSubviews()
         configure()
         if FirebaseAuth.Auth.auth().currentUser == nil{
-            boardNavBar.writeButton.isHidden = true
+            boardNavBar.profileButton.isHidden = true
         }
         layout()
         

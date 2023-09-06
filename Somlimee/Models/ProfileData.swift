@@ -9,7 +9,7 @@ import UIKit
 
 struct ProfileData {
     let userName: String
-    let profileImage: UIImage?
+    let profileImage: UIImage?  
     let totalUps: Int
     let signUpDate: String
     let numOfPosts: Int
