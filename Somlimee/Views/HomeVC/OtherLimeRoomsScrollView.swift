@@ -41,6 +41,7 @@ class OtherLimeRoomsScrollView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        initializeView()
         setupView()
     }
     
@@ -52,7 +53,6 @@ class OtherLimeRoomsScrollView: UIView {
     private func setupView() {
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .systemBackground
         
         // Add the title label
         addSubview(titleLabel)
@@ -109,7 +109,7 @@ class OtherLimeRoomsScrollViewCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 13
         imageView.clipsToBounds = true
         return imageView
@@ -119,7 +119,6 @@ class OtherLimeRoomsScrollViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.hanSansNeoRegular(size: 14)
-        label.heightAnchor.constraint(equalToConstant: 12).isActive = true
         label.textAlignment = .center
         label.textColor = .label
         return label
@@ -138,6 +137,7 @@ class OtherLimeRoomsScrollViewCell: UICollectionViewCell {
     }
     
     private func setupView() {
+        self.translatesAutoresizingMaskIntoConstraints = false
         addSubview(imageView)
         addSubview(label)
         
@@ -147,7 +147,7 @@ class OtherLimeRoomsScrollViewCell: UICollectionViewCell {
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor), // Square image view
             
-            label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
+            label.topAnchor.constraint(equalTo: imageView.bottomAnchor),
             label.leadingAnchor.constraint(equalTo: leadingAnchor),
             label.trailingAnchor.constraint(equalTo: trailingAnchor),
             label.bottomAnchor.constraint(equalTo: bottomAnchor)
@@ -164,7 +164,7 @@ class OtherLimeRoomsScrollViewCell: UICollectionViewCell {
     }
 }
 extension OtherLimeRoomsScrollView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView , layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // Calculate the desired size for each cell
         let cellWidth = collectionView.bounds.width * 0.2
         let cellHeight = collectionView.bounds.height * 0.8

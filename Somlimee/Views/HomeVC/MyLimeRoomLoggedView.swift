@@ -165,6 +165,7 @@ class MyLimeRoomLoggedView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         repository = HomeViewRepositoryImpl()
+        initializeView()
         configure()
         addSubviews()
         layout()

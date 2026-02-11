@@ -47,19 +47,19 @@ class LimeTestSectionView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        initializeView()
         setupView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        initializeView()
         setupView()
     }
     
     private func setupView() {
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .systemBackground
-        
         // Add the title label
         addSubview(titleLabel)
         addSubview(detailLabel)

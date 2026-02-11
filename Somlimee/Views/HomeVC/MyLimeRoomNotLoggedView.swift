@@ -106,6 +106,7 @@ class MyLimeRoomNotLoggedView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        initializeView()
         configure()
         addSubviews()
         layout()

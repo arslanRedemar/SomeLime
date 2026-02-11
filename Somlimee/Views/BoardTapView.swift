@@ -83,7 +83,7 @@ extension BoardTapView: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let button = UIButton()
         button.setTitle(tapList?[indexPath.item] ?? "", for: .normal)
-        return CGSize(width: collectionView.frame.width/(Double(tapList?.count ?? 0) + 1.0), height: button.intrinsicContentSize.height)
+        return CGSize(width: collectionView.frame.width/Double(tapList?.count ?? 0), height: button.intrinsicContentSize.height)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
@@ -110,7 +110,7 @@ class BoardTapViewCell: UICollectionViewCell {
                 self.bottomBorderLine.backgroundColor = SomLimeColors.primaryColor
             }else{
                 self.cellColor = SomLimeColors.label
-                self.bottomBorderLine.backgroundColor = SomLimeColors.backgroundColor
+                self.bottomBorderLine.backgroundColor = .none
             }
             cellLabel.textColor = cellColor
         }
@@ -138,7 +138,7 @@ class BoardTapViewCell: UICollectionViewCell {
         
         
         cellLabel.textColor = cellColor
-        bottomBorderLine.backgroundColor = SomLimeColors.backgroundColor
+        bottomBorderLine.backgroundColor = .none
         contentView.addSubview(container)
         
         container.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true

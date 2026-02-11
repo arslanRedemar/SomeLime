@@ -111,8 +111,7 @@ class LimesTodayTapView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         repository = HomeViewRepositoryImpl()
-        view.backgroundColor = .white
-        
+        initializeVC()
         setupViews()
         setupConstraints()
         moveButton.addTarget(self, action: #selector(moveToBoard), for: .touchUpInside)
@@ -200,6 +199,7 @@ fileprivate class LimesTodayTableView: UITableView {
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
+        self.initializeTableView()
         self.delegate = self
         self.dataSource = self
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -251,6 +251,7 @@ fileprivate class CustomTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        initializeView()
         container.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(container)
         container.addArrangedSubview(titleLabel)

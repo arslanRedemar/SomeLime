@@ -34,14 +34,9 @@ class BoardPostNavBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     func setup(){
         
-        
-        
-        
         //Auto layout pre-setup
-        
         self.translatesAutoresizingMaskIntoConstraints = false
         container.contentView.translatesAutoresizingMaskIntoConstraints = false
         container.translatesAutoresizingMaskIntoConstraints = false
@@ -52,6 +47,7 @@ class BoardPostNavBar: UIView {
         //Data assignment
         viewWidthConsstraint = self.widthAnchor.constraint(equalToConstant: screenSize.width)
         viewHeightConstraint = self.heightAnchor.constraint(equalToConstant: screenSize.height * defaultMultiplierOfHeight)
+        
         //UI configuration
         titleView.axis = .horizontal
         buttonGroups.distribution = .fill
@@ -70,7 +66,6 @@ class BoardPostNavBar: UIView {
         titleView.addArrangedSubview(title)
         titleView.distribution = .fill
         titleView.spacing = 5
-        
         
         backButton.leadingAnchor.constraint(equalTo: container.contentView.leadingAnchor, constant: 10).isActive = true
         backButton.bottomAnchor.constraint(equalTo: container.contentView.bottomAnchor, constant: -10).isActive = true

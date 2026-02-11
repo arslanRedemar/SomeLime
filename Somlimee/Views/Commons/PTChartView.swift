@@ -27,9 +27,7 @@ class PTChartView: UIView {
     }
     
     let containerVStack: UIStackView = UIStackView()
-    
     let axisX: UIView = UIView()
-    
     let barHStack: UIStackView = UIStackView()
     
     let strBar: UIView = UIView()

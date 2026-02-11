@@ -16,7 +16,7 @@ class MyLimeRoomBoardTableView: UITableView {
     var onCellClicked: ((BoardPostMetaData)->Void)?
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
-        
+        initializeTableView()
         self.delegate = self
         self.dataSource = self
         self.separatorStyle = .none
@@ -76,12 +76,13 @@ class MyLimeRoomBoardTableViewCell: UITableViewCell{
     let time = {
         let label = UILabel()
         label.font = .hanSansNeoRegular(size: 14)
-        label.textColor = SomLimeColors.systemGrayLight
+        label.textColor = SomLimeColors.labelLight
         return label
     }()
     let view = UIView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.addSubview(view)
         self.backgroundColor = .none

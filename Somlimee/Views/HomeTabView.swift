@@ -32,6 +32,8 @@ class HomeTabView: UIView {
     private func internalInit(){
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.initializeView()
+        initializeView()
         configure()
         setUpLayout()
     }

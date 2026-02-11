@@ -14,7 +14,7 @@ class HomeBoardTableView: UITableView{
     private var heightConstraint: NSLayoutConstraint = NSLayoutConstraint()
     
     private let topBottomInsets: CGFloat = 10
-    public var boardSectionPostCellData: [BoardPostMetaData]?{
+    var boardSectionPostCellData: [BoardPostMetaData]?{
         didSet{
             self.reloadData()
         }
@@ -253,6 +253,7 @@ class HomeBoardTableViewCell: UITableViewCell{
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        initializeView()
         configure()
         layout()
     }

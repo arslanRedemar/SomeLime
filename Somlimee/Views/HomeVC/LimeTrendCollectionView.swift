@@ -46,7 +46,6 @@ class LimeTrendCollectionView: UIView {
     
     private func configureUI() {
         
-        backgroundColor = .white
         
         //컨테이너 설정
         container.axis = .vertical
@@ -93,6 +92,7 @@ class LimeTrendCollectionView: UIView {
         layout.minimumLineSpacing = 5
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         super.init(frame: frame)
+        initializeView()
         configureUI()
     }
     
@@ -154,6 +154,7 @@ class LimeTrendCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        initializeView()
         setupView()
     }
     
