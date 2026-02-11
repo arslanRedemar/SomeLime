@@ -86,3 +86,12 @@ struct ChangePasswordScreen: View {
         }
     }
 }
+
+#if DEBUG
+#Preview {
+    NavigationStack {
+        ChangePasswordScreen()
+    }
+    .previewWithContainer()
+}
+#endif

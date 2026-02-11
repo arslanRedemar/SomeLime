@@ -74,3 +74,12 @@ struct SignUpScreen: View {
         }
     }
 }
+
+#if DEBUG
+#Preview {
+    NavigationStack {
+        SignUpScreen()
+    }
+    .previewWithContainer()
+}
+#endif

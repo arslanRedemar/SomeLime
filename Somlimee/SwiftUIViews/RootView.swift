@@ -59,6 +59,10 @@ struct RootView: View {
                         UserCurrentCommentsScreen()
                     case .appSettings:
                         AppSettingsScreen()
+                    case .trendSearchResult(let keyword):
+                        TrendSearchResultScreen(keyword: keyword)
+                    case .report(let board, let post):
+                        ReportScreen(boardName: board, postId: post)
                     case .home:
                         HomeScreen(
                             onMenuTap: { showSideMenu = true },
@@ -116,3 +120,10 @@ struct RootView: View {
         .animation(.easeInOut(duration: 0.25), value: showProfile)
     }
 }
+
+#if DEBUG
+#Preview {
+    RootView()
+        .previewWithContainer()
+}
+#endif

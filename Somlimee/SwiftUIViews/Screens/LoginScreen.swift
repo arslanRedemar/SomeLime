@@ -75,3 +75,12 @@ struct LoginScreen: View {
         .navigationBarHidden(true)
     }
 }
+
+#if DEBUG
+#Preview {
+    NavigationStack {
+        LoginScreen()
+    }
+    .previewWithContainer()
+}
+#endif

@@ -72,3 +72,12 @@ struct ForgotPasswordScreen: View {
         }
     }
 }
+
+#if DEBUG
+#Preview {
+    NavigationStack {
+        ForgotPasswordScreen()
+    }
+    .previewWithContainer()
+}
+#endif

@@ -122,3 +122,12 @@ struct ProfileSettingsScreen: View {
         }
     }
 }
+
+#if DEBUG
+#Preview {
+    NavigationStack {
+        ProfileSettingsScreen()
+    }
+    .previewWithContainer()
+}
+#endif

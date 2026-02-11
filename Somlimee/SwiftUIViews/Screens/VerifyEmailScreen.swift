@@ -87,3 +87,12 @@ struct VerifyEmailScreen: View {
         }
     }
 }
+
+#if DEBUG
+#Preview {
+    NavigationStack {
+        VerifyEmailScreen()
+    }
+    .previewWithContainer()
+}
+#endif
