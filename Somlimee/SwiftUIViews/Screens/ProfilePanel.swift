@@ -14,6 +14,14 @@ struct ProfilePanel: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            if let error = vm?.errorMessage {
+                Text(error)
+                    .font(.hanSansNeoRegular(size: 13))
+                    .foregroundStyle(.red)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+            }
+
             // Profile header
             profileHeader
                 .padding(.bottom, 16)
@@ -28,22 +36,24 @@ struct ProfilePanel: View {
             Divider()
                 .padding(.horizontal, 16)
 
-            // Menu items
-            VStack(spacing: 0) {
-                menuRow(icon: "pencil.and.list.clipboard", title: "내 게시글") {
-                    onNavigate(.userCurrentPosts)
+            // Menu items (logged-in only)
+            if vm?.userProfile != nil {
+                VStack(spacing: 0) {
+                    menuRow(icon: "pencil.and.list.clipboard", title: "내 게시글") {
+                        onNavigate(.userCurrentPosts)
+                    }
+                    menuRow(icon: "text.bubble", title: "내 댓글") {
+                        onNavigate(.userCurrentComments)
+                    }
+                    menuRow(icon: "brain.head.profile", title: "성격 테스트 결과") {
+                        onNavigate(.personalityTestResult)
+                    }
+                    menuRow(icon: "gearshape", title: "프로필 설정") {
+                        onNavigate(.profileSettings)
+                    }
                 }
-                menuRow(icon: "text.bubble", title: "내 댓글") {
-                    onNavigate(.userCurrentComments)
-                }
-                menuRow(icon: "brain.head.profile", title: "성격 테스트 결과") {
-                    onNavigate(.personalityTestResult)
-                }
-                menuRow(icon: "gearshape", title: "프로필 설정") {
-                    onNavigate(.profileSettings)
-                }
+                .padding(.vertical, 8)
             }
-            .padding(.vertical, 8)
 
             Spacer()
 

@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // RealTime collection - read only for authenticated users
+    match /RealTime/{document} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // Users collection - read for authenticated, write only own document
+    match /Users/{userId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false;
+    }
+
+    // Reports collection - authenticated users can create, no read/update/delete
+    match /Reports/{reportId} {
+      allow create: if request.auth != null;
+      allow read, update, delete: if false;
+    }
+
+    // BoardInfo collection
+    match /BoardInfo/{boardName} {
+      allow read: if request.auth != null;
+      allow write: if false;
+
+      // Posts subcollection
+      match /Posts/{postId} {
+        allow read: if request.auth != null;
+        allow create: if request.auth != null
+          && request.resource.data.UserId == request.auth.uid;
+        allow update: if request.auth != null;
+        allow delete: if false;
+
+        // BoardPostContents subcollection
+        match /BoardPostContents/{contentId} {
+          allow read: if request.auth != null;
+          allow create: if request.auth != null;
+          allow update, delete: if false;
+
+          // Comments inside BoardPostContents/Comments/CommentList
+          match /CommentList/{commentId} {
+            allow read: if request.auth != null;
+            allow create: if request.auth != null;
+            allow update, delete: if false;
+          }
+        }
+      }
+    }
+
+    // BoardHotPosts collection - read only
+    match /BoardHotPosts/{boardName} {
+      allow read: if request.auth != null;
+      allow write: if false;
+
+      match /Posts/{postId} {
+        allow read: if request.auth != null;
+        allow write: if false;
+      }
+    }
+  }
+}

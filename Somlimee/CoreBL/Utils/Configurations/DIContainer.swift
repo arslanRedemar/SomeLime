@@ -27,7 +27,7 @@ final class DIContainer {
                 remote: r.resolve(RemoteDataSource.self)!,
                 local: r.resolve(LocalDataSource.self)!
             )
-        }
+        }.inObjectScope(.container)
 
         // MARK: - Auth
 
@@ -73,6 +73,14 @@ final class DIContainer {
             QuestionsRepositoryImpl(dataSource: r.resolve(DataSource.self)!)
         }
 
+        container.register(SearchRepository.self) { r in
+            SearchRepositoryImpl(dataSource: r.resolve(DataSource.self)!)
+        }
+
+        container.register(ReportRepository.self) { r in
+            ReportRepositoryImpl(dataSource: r.resolve(DataSource.self)!)
+        }
+
         // MARK: - Use Cases
 
         container.register(UCGetLimeRoomMeta.self) { r in
@@ -113,6 +121,25 @@ final class DIContainer {
             UCWriteCommentImpl(postRepository: r.resolve(PostRepository.self)!)
         }
 
+        container.register(UCRecommendPost.self) { r in
+            UCRecommendPostImpl(postRepository: r.resolve(PostRepository.self)!)
+        }
+
+        container.register(UCReportContent.self) { r in
+            UCReportContentImpl(reportRepository: r.resolve(ReportRepository.self)!)
+        }
+
+        container.register(UCSearch.self) { r in
+            UCSearchImpl(searchRepository: r.resolve(SearchRepository.self)!)
+        }
+
+        container.register(UCRunPsyTest.self) { r in
+            UCRunPsyTestImpl(
+                questionsRepo: r.resolve(QuestionsRepository.self)!,
+                personalityTestRepo: r.resolve(PersonalityTestRepository.self)!
+            )
+        }
+
         // MARK: - ViewModels
 
         container.register(HomeViewModel.self) { r in
@@ -132,7 +159,8 @@ final class DIContainer {
 
         container.register(SideMenuViewModel.self) { r in
             SideMenuViewModelImpl(
-                categoryRepo: r.resolve(CategoryRepository.self)!
+                categoryRepo: r.resolve(CategoryRepository.self)!,
+                userRepo: r.resolve(UserRepository.self)!
             )
         }
 
@@ -147,7 +175,8 @@ final class DIContainer {
         container.register(LimeRoomViewModel.self) { r in
             LimeRoomViewModelImpl(
                 getLimeRoomMeta: r.resolve(UCGetLimeRoomMeta.self)!,
-                getLimeRoomPostList: r.resolve(UCGetLimeRoomPostList.self)!
+                getLimeRoomPostList: r.resolve(UCGetLimeRoomPostList.self)!,
+                userRepo: r.resolve(UserRepository.self)!
             )
         }
 
@@ -155,26 +184,30 @@ final class DIContainer {
             BoardPostViewModelImpl(
                 getPost: r.resolve(UCGetPost.self)!,
                 getComments: r.resolve(UCGetComments.self)!,
-                writeComment: r.resolve(UCWriteComment.self)!
+                writeComment: r.resolve(UCWriteComment.self)!,
+                recommendPost: r.resolve(UCRecommendPost.self)!
             )
         }
 
         container.register(BoardPostWriteViewModel.self) { r in
             BoardPostWriteViewModelImpl(
                 writePost: r.resolve(UCWritePost.self)!,
-                authRepo: r.resolve(AuthRepository.self)!
+                authRepo: r.resolve(AuthRepository.self)!,
+                postRepo: r.resolve(PostRepository.self)!
             )
         }
 
         container.register(UserCurrentCommentsViewModel.self) { r in
             UserCurrentCommentsViewModelImpl(
-                userRepo: r.resolve(UserRepository.self)!
+                userRepo: r.resolve(UserRepository.self)!,
+                authRepo: r.resolve(AuthRepository.self)!
             )
         }
 
         container.register(UserCurrentPostsViewModel.self) { r in
             UserCurrentPostsViewModelImpl(
-                userRepo: r.resolve(UserRepository.self)!
+                userRepo: r.resolve(UserRepository.self)!,
+                authRepo: r.resolve(AuthRepository.self)!
             )
         }
 
@@ -201,6 +234,33 @@ final class DIContainer {
             ChangePasswordViewModelImpl(
                 authRepo: r.resolve(AuthRepository.self)!
             )
+        }
+
+        container.register(SearchViewModel.self) { r in
+            SearchViewModelImpl(
+                searchUC: r.resolve(UCSearch.self)!
+            )
+        }
+
+        container.register(PersonalityTestViewModel.self) { r in
+            PersonalityTestViewModelImpl(
+                runPsyTest: r.resolve(UCRunPsyTest.self)!,
+                authRepo: r.resolve(AuthRepository.self)!
+            )
+        }
+
+        container.register(PsyTestListViewModel.self) { r in
+            PsyTestListViewModelImpl()
+        }
+
+        container.register(ReportViewModel.self) { r in
+            ReportViewModelImpl(
+                reportUC: r.resolve(UCReportContent.self)!
+            )
+        }
+
+        container.register(AppSettingsViewModel.self) { _ in
+            AppSettingsViewModelImpl()
         }
     }
 }

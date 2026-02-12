@@ -193,12 +193,12 @@ final class FirebaseDataSource: RemoteDataSource {
             let userName = try await getUserData()?["UserName"]
             let colRef = db.collection("BoardInfo").document(parsedBoardName).collection("Posts")
             let postType = postData.boardPostImageURLs.isEmpty ? "text" : "image"
-            let docRef = colRef.addDocument(data: [
+            let docRef = try await colRef.addDocument(data: [
                 "BoardTap": postData.boardPostTap,
                 "CommentsNumber": 0,
                 "PostTitle": postData.boardPostTitle,
                 "PostType": postType,
-                "PublishedTime": Timestamp(date: Date.now).dateValue().description,
+                "PublishedTime": FieldValue.serverTimestamp(),
                 "ThumbnailURL": "",
                 "UserId": postData.boardPostUserId,
                 "UserName": userName ?? "",
@@ -229,7 +229,7 @@ final class FirebaseDataSource: RemoteDataSource {
             let userId = Auth.auth().currentUser?.uid ?? ""
             let parsedBoardName = parseBoardName(boardName)
             let colRef = db.collection("BoardInfo").document(parsedBoardName).collection("Posts").document(postId).collection("BoardPostContents").document("Comments").collection("CommentList")
-            _ = colRef.addDocument(data: [
+            _ = try await colRef.addDocument(data: [
                 "Text": text,
                 "Target": target,
                 "UserName": userName,
@@ -296,6 +296,109 @@ final class FirebaseDataSource: RemoteDataSource {
             try await db.collection("Users").document(uid).delete()
         } catch {
             throw DataSourceFailures.CouldNotUpdateData
+        }
+    }
+
+    func voteUpPost(boardName: String, postId: String) async throws {
+        guard let db = database else {
+            throw DataSourceFailures.CouldNotFindRemoteDataBase
+        }
+        guard boardName != "", postId != "" else { return }
+        let parsedBoardName = parseBoardName(boardName)
+        let docRef = db.collection("BoardInfo").document(parsedBoardName).collection("Posts").document(postId)
+        do {
+            try await db.runTransaction { transaction, errorPointer in
+                let snapshot: DocumentSnapshot
+                do {
+                    snapshot = try transaction.getDocument(docRef)
+                } catch let error as NSError {
+                    errorPointer?.pointee = error
+                    return nil
+                }
+                let currentVotes = (snapshot.data()?["VoteUps"] as? Int) ?? 0
+                transaction.updateData(["VoteUps": currentVotes + 1], forDocument: docRef)
+                return nil
+            }
+        } catch {
+            throw DataSourceFailures.CouldNotUpdateData
+        }
+    }
+
+    func createReport(boardName: String, postId: String, reason: String, detail: String) async throws {
+        guard let db = database else {
+            throw DataSourceFailures.CouldNotFindRemoteDataBase
+        }
+        let userId = Auth.auth().currentUser?.uid ?? ""
+        do {
+            _ = try await db.collection("Reports").addDocument(data: [
+                "BoardName": boardName,
+                "PostId": postId,
+                "Reason": reason,
+                "Detail": detail,
+                "ReporterId": userId,
+                "ReportedTime": Date.now.description,
+                "Status": "pending"
+            ])
+        } catch {
+            throw DataSourceFailures.CouldNotUpdateData
+        }
+    }
+
+    func getUserPosts(userId: String) async throws -> [[String: Any]]? {
+        guard let db = database else {
+            throw DataSourceFailures.CouldNotFindRemoteDataBase
+        }
+        guard userId != "" else { return nil }
+        do {
+            let boardList = Array(SomeLiMePTTypeDesc.typeDetail.keys)
+            var allPosts: [[String: Any]] = []
+            for board in boardList {
+                let colRef = db.collection("BoardInfo").document(board).collection("Posts")
+                    .whereField("UserId", isEqualTo: userId)
+                    .order(by: "PublishedTime", descending: true)
+                    .limit(to: 20)
+                let documents = try await colRef.getDocuments()
+                for document in documents.documents {
+                    var temp = convertTimestamps(document.data())
+                    temp["PostId"] = document.documentID
+                    temp["BoardName"] = board
+                    allPosts.append(temp)
+                }
+            }
+            return allPosts
+        } catch {
+            throw DataSourceFailures.CouldNotFindDocument
+        }
+    }
+
+    func getUserComments(userId: String) async throws -> [[String: Any]]? {
+        guard let db = database else {
+            throw DataSourceFailures.CouldNotFindRemoteDataBase
+        }
+        guard userId != "" else { return nil }
+        do {
+            let boardList = Array(SomeLiMePTTypeDesc.typeDetail.keys)
+            var allComments: [[String: Any]] = []
+            for board in boardList {
+                let postsRef = db.collection("BoardInfo").document(board).collection("Posts").limit(to: 50)
+                let posts = try await postsRef.getDocuments()
+                for post in posts.documents {
+                    let commentsRef = post.reference.collection("BoardPostContents").document("Comments").collection("CommentList")
+                        .whereField("UserId", isEqualTo: userId)
+                        .order(by: "PublishedTime", descending: true)
+                        .limit(to: 10)
+                    let comments = try await commentsRef.getDocuments()
+                    for comment in comments.documents {
+                        var temp = convertTimestamps(comment.data())
+                        temp["BoardName"] = board
+                        temp["PostId"] = post.documentID
+                        allComments.append(temp)
+                    }
+                }
+            }
+            return allComments
+        } catch {
+            throw DataSourceFailures.CouldNotFindDocument
         }
     }
 }
