@@ -7,6 +7,10 @@
 
 import Foundation
 
-struct LimeTrendsData{
+struct LimeTrendsData: Codable {
     let trendsList: [String]
+
+    enum CodingKeys: String, CodingKey {
+        case trendsList = "List"
+    }
 }

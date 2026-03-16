@@ -20,9 +20,9 @@ protocol RemoteDataSource {
     
     func getBoardInfoData(boardName: String) async throws -> [String : Any]?
     
-    func getBoardPostMetaList(boardName: String, startTime: String, counts: Int) async throws -> [[String : Any]]?
-    
-    func getBoardHotPostsList(boardName: String, startTime: String, counts: Int) async throws -> [String]?
+    func getBoardPostMetaList(boardName: String, startTime: String?, counts: Int) async throws -> [[String : Any]]?
+
+    func getBoardHotPostsList(boardName: String, startTime: String?, counts: Int) async throws -> [String]?
     
     func getBoardPostMeta(boardName: String, postId: String) async throws -> [String : Any]?
     
@@ -37,4 +37,16 @@ protocol RemoteDataSource {
     func uploadImage(data: Data, path: String) async throws -> String
 
     func deleteUser() async throws
+
+    func voteUpPost(boardName: String, postId: String) async throws
+
+    func createReport(boardName: String, postId: String, reason: String, detail: String) async throws
+
+    func getUserPosts(userId: String) async throws -> [[String: Any]]?
+
+    func getUserComments(userId: String) async throws -> [[String: Any]]?
+
+    func getNotifications(limit: Int) async throws -> [[String: Any]]?
+
+    func markNotificationRead(notificationId: String) async throws
 }

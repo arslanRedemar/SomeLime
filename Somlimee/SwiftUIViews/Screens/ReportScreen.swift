@@ -10,6 +10,7 @@ struct ReportScreen: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.diContainer) private var container
     @State private var vm: ReportViewModelImpl?
+    @State private var showSuccess = false
 
     let boardName: String
     let postId: String
@@ -22,6 +23,7 @@ struct ReportScreen: View {
                     Image(systemName: "xmark")
                         .foregroundColor(.somLimeLabel)
                 }
+                .accessibilityLabel("닫기")
                 Spacer()
                 Text("Report")
                     .font(.hanSansNeoBold(size: 18))
@@ -121,8 +123,13 @@ struct ReportScreen: View {
         }
         .onChange(of: vm?.isSubmitted) { _, submitted in
             if submitted == true {
-                dismiss()
+                showSuccess = true
             }
+        }
+        .alert("신고 접수 완료", isPresented: $showSuccess) {
+            Button("확인") { dismiss() }
+        } message: {
+            Text("신고가 접수되었습니다. 감사합니다.")
         }
     }
 }

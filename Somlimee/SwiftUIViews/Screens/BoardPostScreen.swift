@@ -23,6 +23,7 @@ struct BoardPostScreen: View {
                     Image(systemName: "chevron.left")
                         .foregroundColor(.somLimeLabel)
                 }
+                .accessibilityLabel("뒤로 가기")
                 Text(vm?.meta?.title ?? "Post")
                     .font(.hanSansNeoBold(size: 18))
                     .lineLimit(1)
@@ -31,6 +32,7 @@ struct BoardPostScreen: View {
                     Image(systemName: "exclamationmark.triangle")
                         .foregroundColor(.somLimeSystemGray)
                 }
+                .accessibilityLabel("신고")
             }
             .padding()
             .background(.ultraThinMaterial)
@@ -104,7 +106,7 @@ struct BoardPostScreen: View {
                             } label: {
                                 HStack(spacing: 6) {
                                     Image(systemName: vm?.hasVoted == true ? "hand.thumbsup.fill" : "hand.thumbsup")
-                                    Text("Recommend")
+                                    Text("추천")
                                         .font(.hanSansNeoMedium(size: 14))
                                 }
                                 .padding(.horizontal, 20)
@@ -121,7 +123,7 @@ struct BoardPostScreen: View {
                         Divider().padding(.horizontal)
 
                         // Comments header
-                        Text("Comments (\(vm?.comments.count ?? 0))")
+                        Text("댓글 (\(vm?.comments.count ?? 0))")
                             .font(.hanSansNeoBold(size: 15))
                             .padding(.horizontal)
 
@@ -134,13 +136,17 @@ struct BoardPostScreen: View {
                                 }
                             }
                         } else {
-                            Text("No comments yet")
+                            Text("댓글이 없습니다")
                                 .font(.hanSansNeoRegular(size: 14))
                                 .foregroundColor(.somLimeSystemGray)
                                 .padding(.horizontal)
                                 .padding(.vertical, 20)
                         }
                     }
+                }
+                .refreshable {
+                    await vm?.loadPost(boardName: boardName, postId: postId)
+                    await vm?.loadComments(boardName: boardName, postId: postId)
                 }
 
                 // Comment input
@@ -150,6 +156,17 @@ struct BoardPostScreen: View {
                     onSubmit: {
                         let text = commentText.trimmingCharacters(in: .whitespaces)
                         guard !text.isEmpty else { return }
+                        let mockComment = LimeRoomPostComment(
+                            userName: "Me",
+                            userID: "local_user",
+                            postID: postId,
+                            target: postId,
+                            publishedTime: ISO8601DateFormatter().string(from: Date()),
+                            isRevised: false,
+                            text: text,
+                            boardName: boardName
+                        )
+                        vm?.comments.insert(mockComment, at: 0)
                         commentText = ""
                         Task {
                             await vm?.submitComment(boardName: boardName, postId: postId, text: text)

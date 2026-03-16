@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PersonalityTestResultData {
+struct PersonalityTestResultData: Codable {
     let Strenuousness: Int
     let Receptiveness: Int
     let Harmonization: Int

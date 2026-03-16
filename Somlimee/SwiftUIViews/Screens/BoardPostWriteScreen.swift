@@ -14,6 +14,7 @@ struct BoardPostWriteScreen: View {
     @State private var title = ""
     @State private var content = ""
     @State private var selectedItems: [PhotosPickerItem] = []
+    @State private var showSuccess = false
 
     let boardName: String
 
@@ -30,6 +31,7 @@ struct BoardPostWriteScreen: View {
                     Image(systemName: "xmark")
                         .foregroundColor(.somLimeLabel)
                 }
+                .accessibilityLabel("닫기")
                 Spacer()
                 Text("Write Post")
                     .font(.hanSansNeoBold(size: 16))
@@ -106,6 +108,7 @@ struct BoardPostWriteScreen: View {
                                                         .foregroundColor(.white)
                                                         .background(Circle().fill(Color.black.opacity(0.5)))
                                                 }
+                                                .accessibilityLabel("이미지 삭제")
                                                 .offset(x: 4, y: -4)
                                             }
                                         }
@@ -133,8 +136,13 @@ struct BoardPostWriteScreen: View {
         }
         .onChange(of: vm?.isSubmitted) { _, submitted in
             if submitted == true {
-                dismiss()
+                showSuccess = true
             }
+        }
+        .alert("게시글 등록 완료", isPresented: $showSuccess) {
+            Button("확인") { dismiss() }
+        } message: {
+            Text("게시글이 성공적으로 등록되었습니다.")
         }
         .onChange(of: selectedItems) { _, newItems in
             Task {

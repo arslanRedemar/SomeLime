@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct PsyTestList {
+    let list: [String]
+}

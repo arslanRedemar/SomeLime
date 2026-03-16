@@ -46,6 +46,10 @@ struct LimeRoomScreen: View {
                         }
                     }
                 }
+                .refreshable {
+                    await vm?.loadMeta(boardName: boardName)
+                    await vm?.loadPostList(boardName: boardName, page: currentPage)
+                }
             } else if vm?.isLoading == true {
                 Spacer()
                 ProgressView()

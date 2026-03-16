@@ -10,25 +10,26 @@ struct TabSelectorView: View {
     @Binding var selectedIndex: Int
 
     var body: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 6) {
             ForEach(Array(tabs.enumerated()), id: \.offset) { index, tab in
                 Button {
-                    withAnimation { selectedIndex = index }
+                    withAnimation(.easeInOut(duration: 0.2)) { selectedIndex = index }
                 } label: {
-                    VStack(spacing: 4) {
-                        Text(tab)
-                            .font(.hanSansNeoMedium(size: 14))
-                            .foregroundStyle(selectedIndex == index ? Color.somLimePrimary : .secondary)
-                            .padding(.vertical, 8)
-                        Rectangle()
-                            .fill(selectedIndex == index ? Color.somLimePrimary : .clear)
-                            .frame(height: 2)
-                    }
+                    Text(tab)
+                        .font(.hanSansNeoMedium(size: 13))
+                        .foregroundStyle(selectedIndex == index ? .white : .secondary)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(
+                            Capsule()
+                                .fill(selectedIndex == index ? Color.somLimePrimary : Color.somLimeLightPrimary)
+                        )
                 }
-                .frame(maxWidth: .infinity)
             }
+            Spacer()
         }
-        .background(Color.somLimeBackground)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
     }
 }
 

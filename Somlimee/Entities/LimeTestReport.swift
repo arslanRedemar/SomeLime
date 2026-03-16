@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct LimeTestReport{
+    var typeName: String
+    var typeDetailedReport: String
+    var typeImageName: String
+}

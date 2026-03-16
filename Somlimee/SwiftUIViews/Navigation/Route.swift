@@ -25,4 +25,7 @@ enum Route: Hashable {
     case profileSettings
     case forgotPassword
     case changePassword
+    case trendSearchResult(keyword: String)
+    case report(boardName: String, postId: String)
+    case notifications
 }

@@ -7,20 +7,26 @@
 
 import SwiftUI
 import Swinject
+import Combine
 
 struct RootView: View {
     @Environment(\.diContainer) private var container
     @State private var path = NavigationPath()
     @State private var showSideMenu = false
     @State private var showProfile = false
+    @State private var authRefreshID = UUID()
 
     var body: some View {
         ZStack {
             NavigationStack(path: $path) {
                 HomeScreen(
                     onMenuTap: { showSideMenu = true },
+                    onNotificationTap: {
+                        path.append(Route.notifications)
+                    },
                     onProfileTap: { showProfile = true }
                 )
+                .id(authRefreshID)
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .limeRoom(let name):
@@ -63,9 +69,14 @@ struct RootView: View {
                         TrendSearchResultScreen(keyword: keyword)
                     case .report(let board, let post):
                         ReportScreen(boardName: board, postId: post)
+                    case .notifications:
+                        NotificationsScreen()
                     case .home:
                         HomeScreen(
                             onMenuTap: { showSideMenu = true },
+                            onNotificationTap: {
+                                path.append(Route.notifications)
+                            },
                             onProfileTap: { showProfile = true }
                         )
                     }
@@ -109,15 +120,21 @@ struct RootView: View {
                         onSignOut: {
                             withAnimation { showProfile = false }
                             path = NavigationPath()
+                            authRefreshID = UUID()
                         }
                     )
                     .frame(width: 300)
+                    .frame(maxHeight: .infinity)
+                    .ignoresSafeArea()
                     .transition(.move(edge: .trailing))
                 }
             }
         }
         .animation(.easeInOut(duration: 0.25), value: showSideMenu)
         .animation(.easeInOut(duration: 0.25), value: showProfile)
+        .onReceive(NotificationCenter.default.publisher(for: .authStateDidChange)) { _ in
+            authRefreshID = UUID()
+        }
     }
 }
 

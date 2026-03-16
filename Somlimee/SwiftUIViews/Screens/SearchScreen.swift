@@ -21,6 +21,7 @@ struct SearchScreen: View {
                     Image(systemName: "chevron.left")
                         .foregroundStyle(Color.somLimeLabel)
                 }
+                .accessibilityLabel("뒤로 가기")
                 TextField("검색어를 입력하세요", text: searchTextBinding)
                     .textFieldStyle(.roundedBorder)
                     .onSubmit { Task { await viewModel?.search() } }
@@ -30,6 +31,7 @@ struct SearchScreen: View {
                     Image(systemName: "magnifyingglass")
                         .foregroundStyle(Color.somLimePrimary)
                 }
+                .accessibilityLabel("검색")
             }
             .padding()
 
@@ -139,6 +141,9 @@ struct SearchScreen: View {
                     }
                 }
             }
+        }
+        .refreshable {
+            await viewModel?.search()
         }
     }
 }

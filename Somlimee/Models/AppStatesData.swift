@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AppStatesData{
+struct AppStatesData: Codable {
     let isFirstTimeLaunched: Bool
     let isNeedToUpdateLocalDataSource: Bool
 }

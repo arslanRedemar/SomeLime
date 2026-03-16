@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA000001INTEGRATIONTEST01 /* FirestoreEmulatorTestBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002INTEGRATIONTEST01 /* FirestoreEmulatorTestBase.swift */; };
+		AA000003INTEGRATIONTEST02 /* FirestoreReadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000004INTEGRATIONTEST02 /* FirestoreReadTests.swift */; };
+		AA000005INTEGRATIONTEST03 /* FirestoreWriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000006INTEGRATIONTEST03 /* FirestoreWriteTests.swift */; };
+		AA000007INTEGRATIONTEST04 /* FirestoreRulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000008INTEGRATIONTEST04 /* FirestoreRulesTests.swift */; };
+		F1E05EB7974BE7307B0E25FC /* SomLimeLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E4F2CDE7A1D7AD6ED5C50D7 /* SomLimeLogger.swift */; };
+		C3D4E5F6A7B8091023456789 /* RelativeTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F607890ABCDEF1 /* RelativeTimeFormatter.swift */; };
+		4A392C20C96A2AB494D7A8A6 /* NotificationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975A0BFAD3CD8FA4B153C83 /* NotificationViewModelTests.swift */; };
+		24233945DF47E725C33B8074 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57938EF4ED73F73A9811F4C3 /* NotificationViewModel.swift */; };
+		B76F976753F2A80C55C492F9 /* NotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358600D4469E93194E3F4BEA /* NotificationRepository.swift */; };
+		7DAED15F55F3BBADB59D99D4 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DEA370EFA7375F2A1C27CA /* NotificationData.swift */; };
+		39558299C90A0C640F2F6AC9 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D1F13F5B7614526EC22FA4 /* AppNotification.swift */; };
 		0051DE5104671DB2EAECAA57 /* HomeLimesTodayViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E8AFFB6DB55CAD0AA2E6A9 /* HomeLimesTodayViewModelTests.swift */; };
 		00963D2C2CF772B93EC7B26C /* UCWritePostTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0531CBDCFA4173BCBAE9BE /* UCWritePostTests.swift */; };
 		00CCA9B47250302B5AABFD5A /* ModelCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E047FA98AF51EBE699C /* ModelCodableTests.swift */; };
@@ -111,6 +122,7 @@
 		C352B1CEEA3F9CDAAA651523 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96755955A8EDB709E8532DC /* HomeScreen.swift */; };
 		C4A3F16B75885CF1E75626E0 /* Pods_SomlimeeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF549D24E797CC694C970D27 /* Pods_SomlimeeTests.framework */; };
 		C5D083A911F7B5426CDDCABF /* DIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935E71982ED77B027FE99056 /* DIEnvironment.swift */; };
+		B0A1D2F3E8C74A9B3F6E1D08 /* BoardRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F3E6B2D1C84E5A9B0F2C37 /* BoardRegistry.swift */; };
 		C6240AF54A164592A4D2ED00 /* UserCurrentCommentsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395B4CBAFEC9882E111A95AE /* UserCurrentCommentsViewModelTests.swift */; };
 		C74D50F5ADA4E2B6AF94244F /* BoardPostWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C0C821372B1448A92E49E9 /* BoardPostWriteViewModel.swift */; };
 		C90BAA6594195A76356258C3 /* VerifyEmailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B823F96D23C5BFC0FFF6F0 /* VerifyEmailScreen.swift */; };
@@ -239,6 +251,7 @@
 		F8B219598EA6955896C193B4 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D991250DB228ADC69CD42308 /* FlowLayout.swift */; };
 		F95BF954E7C939EBB1CD1D47 /* AppSettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9373D21D85B9094BCDA6122 /* AppSettingsViewModelTests.swift */; };
 		FA996EB36FA02886E6435E5A /* PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233BB3C8D767146DE683D9F8 /* PreviewHelpers.swift */; };
+		BB11110200000010 /* NotificationsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB11110100000010 /* NotificationsScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -252,6 +265,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA000002INTEGRATIONTEST01 /* FirestoreEmulatorTestBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreEmulatorTestBase.swift; sourceTree = "<group>"; };
+		AA000004INTEGRATIONTEST02 /* FirestoreReadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReadTests.swift; sourceTree = "<group>"; };
+		AA000006INTEGRATIONTEST03 /* FirestoreWriteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWriteTests.swift; sourceTree = "<group>"; };
+		AA000008INTEGRATIONTEST04 /* FirestoreRulesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreRulesTests.swift; sourceTree = "<group>"; };
+		4E4F2CDE7A1D7AD6ED5C50D7 /* SomLimeLogger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SomLimeLogger.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F607890ABCDEF1 /* RelativeTimeFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RelativeTimeFormatter.swift; sourceTree = "<group>"; };
+		C975A0BFAD3CD8FA4B153C83 /* NotificationViewModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotificationViewModelTests.swift; sourceTree = "<group>"; };
+		57938EF4ED73F73A9811F4C3 /* NotificationViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
+		358600D4469E93194E3F4BEA /* NotificationRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotificationRepository.swift; sourceTree = "<group>"; };
+		20DEA370EFA7375F2A1C27CA /* NotificationData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
+		62D1F13F5B7614526EC22FA4 /* AppNotification.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		02E8AFFB6DB55CAD0AA2E6A9 /* HomeLimesTodayViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLimesTodayViewModelTests.swift; sourceTree = "<group>"; };
 		04C1524981825D2E6FA3C6FD /* LimesTodaySection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LimesTodaySection.swift; sourceTree = "<group>"; };
 		06693E9BE7F845BCB3D0D826 /* UCSearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UCSearchTests.swift; sourceTree = "<group>"; };
@@ -328,6 +352,7 @@
 		8FE83B20442FB4DA36510591 /* UCGetCommentsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UCGetCommentsTests.swift; sourceTree = "<group>"; };
 		91954382AAC85C4D2A417279 /* LimeTestSection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LimeTestSection.swift; sourceTree = "<group>"; };
 		935E71982ED77B027FE99056 /* DIEnvironment.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DIEnvironment.swift; sourceTree = "<group>"; };
+		A7F3E6B2D1C84E5A9B0F2C37 /* BoardRegistry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BoardRegistry.swift; sourceTree = "<group>"; };
 		94393C4B2FF8407E94E0531C /* UCRunPsyTestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UCRunPsyTestTests.swift; sourceTree = "<group>"; };
 		9547ABF59CAF4574B585816F /* UCSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UCSearch.swift; sourceTree = "<group>"; };
 		95531AC4F68507B155739389 /* AppSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
@@ -502,6 +527,7 @@
 		FBF6621731C52250A360A28D /* UCGetComments.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UCGetComments.swift; sourceTree = "<group>"; };
 		FDEBA16419940C4F1112F702 /* PersonalityBarChart.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PersonalityBarChart.swift; sourceTree = "<group>"; };
 		FE8A1EDFA37847AA910F607D /* PsyTestItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsyTestItem.swift; sourceTree = "<group>"; };
+		BB11110100000010 /* NotificationsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -640,6 +666,7 @@
 				AA11110100000008 /* ProfileSettingsScreen.swift */,
 				AA11110100000009 /* ChangePasswordScreen.swift */,
 				C0A8656FD23B5F2BFFE887A7 /* ReportScreen.swift */,
+				BB11110100000010 /* NotificationsScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -661,6 +688,7 @@
 			children = (
 				6A650B952302772C3D3E19A3 /* HomeViewModelTests.swift */,
 				02E8AFFB6DB55CAD0AA2E6A9 /* HomeLimesTodayViewModelTests.swift */,
+				C975A0BFAD3CD8FA4B153C83 /* NotificationViewModelTests.swift */,
 				DCA98EACB5F64007CCDCB3EF /* SideMenuViewModelTests.swift */,
 				127597C6BABFE2937A03A4AC /* ProfileViewModelTests.swift */,
 				E2F8B3E1845C4F5396C3B797 /* PsyTestListViewModelTests.swift */,
@@ -759,6 +787,7 @@
 				AC30E6B53FE344B997385CAE /* SearchRepository.swift */,
 				E5A23A2BFC5A2AC7A4387E5D /* AuthRepository.swift */,
 				B389DAE92245CB6803D55287 /* ReportRepository.swift */,
+				358600D4469E93194E3F4BEA /* NotificationRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -808,6 +837,8 @@
 			children = (
 				CEA8E5DF2B3571B000C98E9C /* Configurations */,
 				DD00010A2ED7A00100000001 /* DictionaryDecoder.swift */,
+				4E4F2CDE7A1D7AD6ED5C50D7 /* SomLimeLogger.swift */,
+				A1B2C3D4E5F607890ABCDEF1 /* RelativeTimeFormatter.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -859,6 +890,7 @@
 				CE2DD98C29D2C0E1002AF99B /* BoardHotKeyData.swift */,
 				CE2DD99A29D2DB90002AF99B /* SearchRealTimeData.swift */,
 				CE2DD99829D2DAFA002AF99B /* SearchHistoryData.swift */,
+				20DEA370EFA7375F2A1C27CA /* NotificationData.swift */,
 				CE2DD98829D2BFA2002AF99B /* HotBoardRankingData.swift */,
 				CE2DD98629D2BE02002AF99B /* LimeTrendsData.swift */,
 				CE2DD99029D2D5AA002AF99B /* PersonalityTestResultData.swift */,
@@ -904,6 +936,7 @@
 				AA11110100000005 /* ProfileSettingsViewModel.swift */,
 				AA11110100000006 /* ChangePasswordViewModel.swift */,
 				F38C4F1C0CE630B2D215EEDF /* ReportViewModel.swift */,
+				57938EF4ED73F73A9811F4C3 /* NotificationViewModel.swift */,
 				1A93E3F5327CC552D4BE2E44 /* AppSettingsViewModel.swift */,
 			);
 			path = ViewModels;
@@ -997,6 +1030,7 @@
 				EDC2FC6C8611425DB7AC8CC1 /* SearchResult.swift */,
 				3541A923DA99B3CA43E5004D /* HotMyLimeRoomPosts.swift */,
 				1BE3E38BA9539CBAE567B02C /* ReportForm.swift */,
+				62D1F13F5B7614526EC22FA4 /* AppNotification.swift */,
 				95531AC4F68507B155739389 /* AppSettings.swift */,
 			);
 			path = Entities;
@@ -1011,6 +1045,7 @@
 				CE2DDA372A27393D002AF99B /* SomLimeFonts.swift */,
 				CE15740E2A808CD1003CCE1F /* SomeLiMePTTypeDesc.swift */,
 				935E71982ED77B027FE99056 /* DIEnvironment.swift */,
+				A7F3E6B2D1C84E5A9B0F2C37 /* BoardRegistry.swift */,
 			);
 			path = Configurations;
 			sourceTree = "<group>";
@@ -1033,8 +1068,20 @@
 				1CBC56A77C9E561240F16048 /* RepositoryTests */,
 				352B9AD480152C1AB1AECF58 /* UseCaseTests */,
 				69793AB641A5D46462D07A4D /* ViewModelTests */,
+				AA000009INTEGRATIONGRP01 /* IntegrationTests */,
 			);
 			path = SomlimeeTests;
+			sourceTree = "<group>";
+		};
+		AA000009INTEGRATIONGRP01 /* IntegrationTests */ = {
+			isa = PBXGroup;
+			children = (
+				AA000002INTEGRATIONTEST01 /* FirestoreEmulatorTestBase.swift */,
+				AA000004INTEGRATIONTEST02 /* FirestoreReadTests.swift */,
+				AA000006INTEGRATIONTEST03 /* FirestoreWriteTests.swift */,
+				AA000008INTEGRATIONTEST04 /* FirestoreRulesTests.swift */,
+			);
+			path = IntegrationTests;
 			sourceTree = "<group>";
 		};
 		D95DDA32F0EDF569F1172286 /* EntityTests */ = {
@@ -1287,6 +1334,7 @@
 				4B48622157554565B4B6714F /* PsyTestListViewModelTests.swift in Sources */,
 				39844FCA7D942D232BA6105A /* HomeViewModelTests.swift in Sources */,
 				0051DE5104671DB2EAECAA57 /* HomeLimesTodayViewModelTests.swift in Sources */,
+				4A392C20C96A2AB494D7A8A6 /* NotificationViewModelTests.swift in Sources */,
 				9A9C1F5CB21866FB76FEAE25 /* SideMenuViewModelTests.swift in Sources */,
 				AE17C3A45EFD3821D2E75C27 /* ProfileViewModelTests.swift in Sources */,
 				1DFC21E0AB98B8658BD4FE48 /* LimeRoomViewModelTests.swift in Sources */,
@@ -1305,6 +1353,10 @@
 				925F7581519AF6309BEA330E /* UserRepositoryExtendedTests.swift in Sources */,
 				65E589464C2FCC1DBDAB07C3 /* ReportViewModelTests.swift in Sources */,
 				F95BF954E7C939EBB1CD1D47 /* AppSettingsViewModelTests.swift in Sources */,
+				AA000001INTEGRATIONTEST01 /* FirestoreEmulatorTestBase.swift in Sources */,
+				AA000003INTEGRATIONTEST02 /* FirestoreReadTests.swift in Sources */,
+				AA000005INTEGRATIONTEST03 /* FirestoreWriteTests.swift in Sources */,
+				AA000007INTEGRATIONTEST04 /* FirestoreRulesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1335,6 +1387,7 @@
 				CE2DDA0A2A271AAE002AF99B /* SomLimeColors.swift in Sources */,
 				CEA8E5E52B601C2700C98E9C /* RemoteDataSource.swift in Sources */,
 				CE2DD99929D2DAFA002AF99B /* SearchHistoryData.swift in Sources */,
+				7DAED15F55F3BBADB59D99D4 /* NotificationData.swift in Sources */,
 				CE2DD9F92A04EA18002AF99B /* BoardPostCommentData.swift in Sources */,
 				CE2DD99529D2D71D002AF99B /* FirebaseDataSource.swift in Sources */,
 				CE2DD9E929F0F786002AF99B /* LocalDataSourceInit.swift in Sources */,
@@ -1344,6 +1397,8 @@
 				CE70EE7C2B7B3C2A008AA1CD /* UCGetLimeRoomPostList.swift in Sources */,
 				CEA8E5E12B35720200C98E9C /* DIContainer.swift in Sources */,
 				DD00010B2ED7A00100000001 /* DictionaryDecoder.swift in Sources */,
+				F1E05EB7974BE7307B0E25FC /* SomLimeLogger.swift in Sources */,
+				C3D4E5F6A7B8091023456789 /* RelativeTimeFormatter.swift in Sources */,
 				CE70EEA52B9E23E4008AA1CD /* UserStatus.swift in Sources */,
 				CE70EE6E2B7A351E008AA1CD /* UCGetMyLimeRoomMeta.swift in Sources */,
 				CE70EEA32B9E2300008AA1CD /* UserTypeName.swift in Sources */,
@@ -1394,6 +1449,7 @@
 				CEA8E5F82B61756800C98E9C /* UserRepository.swift in Sources */,
 				D61A9EB9A687DC038E8EA708 /* Failure.swift in Sources */,
 				C5D083A911F7B5426CDDCABF /* DIEnvironment.swift in Sources */,
+				B0A1D2F3E8C74A9B3F6E1D08 /* BoardRegistry.swift in Sources */,
 				6A8124B140DAD5BA9DCB0E04 /* AuthRepository.swift in Sources */,
 				7749379460F87B245E666E0A /* Route.swift in Sources */,
 				4149F792234A6C6412611CF7 /* RootView.swift in Sources */,
@@ -1461,12 +1517,16 @@
 				A1D39F5D881D53DAFE8D5D86 /* UCRecommendPost.swift in Sources */,
 				BED4DA5041F9EDEC093FD293 /* UCReportContent.swift in Sources */,
 				B8933118A0F592A020C87808 /* ReportRepository.swift in Sources */,
+				B76F976753F2A80C55C492F9 /* NotificationRepository.swift in Sources */,
 				59C96BF51D4BE8E5C7A2C585 /* ReportViewModel.swift in Sources */,
+				24233945DF47E725C33B8074 /* NotificationViewModel.swift in Sources */,
 				3C4008A4B040127AB9A878D4 /* ReportScreen.swift in Sources */,
 				D2D21B4EB9FA169D1E13B850 /* ReportForm.swift in Sources */,
+				39558299C90A0C640F2F6AC9 /* AppNotification.swift in Sources */,
 				E9C309972A199B61E9247FA7 /* AppSettings.swift in Sources */,
 				44CFBC3F9F84B99DA1EA14FA /* AppSettingsViewModel.swift in Sources */,
 				FA996EB36FA02886E6435E5A /* PreviewHelpers.swift in Sources */,
+				BB11110200000010 /* NotificationsScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

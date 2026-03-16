@@ -2,9 +2,9 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // RealTime collection - read only for authenticated users
+    // RealTime collection - public read (trends visible without login)
     match /RealTime/{document} {
-      allow read: if request.auth != null;
+      allow read: if true;
       allow write: if false;
     }
 
@@ -22,14 +22,14 @@ service cloud.firestore {
       allow read, update, delete: if false;
     }
 
-    // BoardInfo collection
+    // BoardInfo collection - public read (board info & posts visible without login)
     match /BoardInfo/{boardName} {
-      allow read: if request.auth != null;
+      allow read: if true;
       allow write: if false;
 
-      // Posts subcollection
+      // Posts subcollection - public read, auth required for write
       match /Posts/{postId} {
-        allow read: if request.auth != null;
+        allow read: if true;
         allow create: if request.auth != null
           && request.resource.data.UserId == request.auth.uid;
         allow update: if request.auth != null;
@@ -37,13 +37,13 @@ service cloud.firestore {
 
         // BoardPostContents subcollection
         match /BoardPostContents/{contentId} {
-          allow read: if request.auth != null;
+          allow read: if true;
           allow create: if request.auth != null;
           allow update, delete: if false;
 
           // Comments inside BoardPostContents/Comments/CommentList
           match /CommentList/{commentId} {
-            allow read: if request.auth != null;
+            allow read: if true;
             allow create: if request.auth != null;
             allow update, delete: if false;
           }
@@ -51,13 +51,25 @@ service cloud.firestore {
       }
     }
 
-    // BoardHotPosts collection - read only
+    // Notifications collection - user can read/update own notifications
+    match /Notifications/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false;
+
+      match /items/{notifId} {
+        allow read: if request.auth != null && request.auth.uid == userId;
+        allow update: if request.auth != null && request.auth.uid == userId;
+        allow create, delete: if false;
+      }
+    }
+
+    // BoardHotPosts collection - public read
     match /BoardHotPosts/{boardName} {
-      allow read: if request.auth != null;
+      allow read: if true;
       allow write: if false;
 
       match /Posts/{postId} {
-        allow read: if request.auth != null;
+        allow read: if true;
         allow write: if false;
       }
     }

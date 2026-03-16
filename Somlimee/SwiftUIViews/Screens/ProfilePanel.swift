@@ -12,6 +12,10 @@ struct ProfilePanel: View {
     var onNavigate: (Route) -> Void
     var onSignOut: () -> Void
 
+    private var isLoggedIn: Bool {
+        vm?.isLoggedIn == true
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             if let error = vm?.errorMessage {
@@ -37,7 +41,7 @@ struct ProfilePanel: View {
                 .padding(.horizontal, 16)
 
             // Menu items (logged-in only)
-            if vm?.userProfile != nil {
+            if isLoggedIn {
                 VStack(spacing: 0) {
                     menuRow(icon: "pencil.and.list.clipboard", title: "내 게시글") {
                         onNavigate(.userCurrentPosts)
@@ -61,7 +65,7 @@ struct ProfilePanel: View {
             Divider()
                 .padding(.horizontal, 16)
 
-            if vm?.userProfile != nil {
+            if isLoggedIn {
                 Button(action: {
                     vm?.signOut()
                     onSignOut()
@@ -85,8 +89,9 @@ struct ProfilePanel: View {
                 .shadow(color: .black.opacity(0.15), radius: 10, x: -4, y: 0)
         )
         .task {
-            guard vm == nil else { return }
-            vm = container.resolve(ProfileViewModel.self) as? ProfileViewModelImpl
+            if vm == nil {
+                vm = container.resolve(ProfileViewModel.self) as? ProfileViewModelImpl
+            }
             await vm?.loadProfile()
             await vm?.loadTestResult()
         }
@@ -96,7 +101,7 @@ struct ProfilePanel: View {
 
     @ViewBuilder
     private var profileHeader: some View {
-        if let profile = vm?.userProfile {
+        if isLoggedIn, let profile = vm?.userProfile {
             VStack(spacing: 12) {
                 // Avatar
                 ZStack {

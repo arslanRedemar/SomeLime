@@ -81,6 +81,10 @@ final class DIContainer {
             ReportRepositoryImpl(dataSource: r.resolve(DataSource.self)!)
         }
 
+        container.register(NotificationRepository.self) { r in
+            NotificationRepositoryImpl(dataSource: r.resolve(DataSource.self)!)
+        }
+
         // MARK: - Use Cases
 
         container.register(UCGetLimeRoomMeta.self) { r in
@@ -256,6 +260,12 @@ final class DIContainer {
         container.register(ReportViewModel.self) { r in
             ReportViewModelImpl(
                 reportUC: r.resolve(UCReportContent.self)!
+            )
+        }
+
+        container.register(NotificationViewModel.self) { r in
+            NotificationViewModelImpl(
+                notificationRepo: r.resolve(NotificationRepository.self)!
             )
         }
 

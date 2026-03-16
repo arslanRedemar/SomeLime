@@ -6,12 +6,3 @@
 //
 
 import Foundation
-
-enum UserSignUpFailures: Error, Equatable{
-    case LocalDataSourceFailure
-    case RemoteDataSourceFailure
-    case CacheControlServiceFailure
-    case UserLoginServiceFailure
-    case UserSignUpWithEmailServiceFailure
-    
-}

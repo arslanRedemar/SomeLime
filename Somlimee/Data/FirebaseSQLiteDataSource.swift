@@ -59,11 +59,11 @@ final class FirebaseSQLiteDataSource: DataSource{
         return try await remoteDataSource.getBoardInfoData(boardName: boardName)
     }
 
-    func getBoardPostMetaList(boardName: String, startTime: String, counts: Int) async throws -> [[String : Any]]?{
+    func getBoardPostMetaList(boardName: String, startTime: String?, counts: Int) async throws -> [[String : Any]]?{
         return try await remoteDataSource.getBoardPostMetaList(boardName: boardName, startTime: startTime, counts: counts)
     }
 
-    func getBoardHotPostsList(boardName: String, startTime: String, counts: Int) async throws -> [String]?{
+    func getBoardHotPostsList(boardName: String, startTime: String?, counts: Int) async throws -> [String]?{
         return try await remoteDataSource.getBoardHotPostsList(boardName: boardName, startTime: startTime, counts: counts)
     }
 
@@ -107,5 +107,29 @@ final class FirebaseSQLiteDataSource: DataSource{
 
     func deleteUser() async throws {
         try await remoteDataSource.deleteUser()
+    }
+
+    func voteUpPost(boardName: String, postId: String) async throws {
+        try await remoteDataSource.voteUpPost(boardName: boardName, postId: postId)
+    }
+
+    func createReport(boardName: String, postId: String, reason: String, detail: String) async throws {
+        try await remoteDataSource.createReport(boardName: boardName, postId: postId, reason: reason, detail: detail)
+    }
+
+    func getUserPosts(userId: String) async throws -> [[String: Any]]? {
+        return try await remoteDataSource.getUserPosts(userId: userId)
+    }
+
+    func getUserComments(userId: String) async throws -> [[String: Any]]? {
+        return try await remoteDataSource.getUserComments(userId: userId)
+    }
+
+    func getNotifications(limit: Int) async throws -> [[String: Any]]? {
+        return try await remoteDataSource.getNotifications(limit: limit)
+    }
+
+    func markNotificationRead(notificationId: String) async throws {
+        try await remoteDataSource.markNotificationRead(notificationId: notificationId)
     }
 }

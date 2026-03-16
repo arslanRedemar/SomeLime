@@ -19,6 +19,7 @@ struct PersonalityTestResultScreen: View {
                     Image(systemName: "chevron.left")
                         .foregroundStyle(Color.somLimeLabel)
                 }
+                .accessibilityLabel("뒤로 가기")
                 Spacer()
                 Text("테스트 결과")
                     .font(.hanSansNeoBold(size: 18))

@@ -16,86 +16,154 @@ struct ProfileSettingsScreen: View {
     var onAccountDeleted: (() -> Void)?
 
     var body: some View {
-        VStack(spacing: 20) {
-            HStack {
-                Button { dismiss() } label: { Image(systemName: "chevron.left") }
-                Spacer()
-                Text("Profile Settings")
-                    .font(.hanSansNeoBold(size: 18))
-                Spacer()
-            }
-            .padding()
+        VStack(spacing: 0) {
+            navBar
 
-            // Nickname section
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Nickname")
-                    .font(.hanSansNeoBold(size: 14))
-                    .foregroundStyle(.secondary)
-                TextField("Nickname", text: Binding(
-                    get: { vm?.nickname ?? "" },
-                    set: { vm?.nickname = $0 }
-                ))
-                .textFieldStyle(.roundedBorder)
+            ScrollView {
+                VStack(spacing: 16) {
+                    // Success / Error messages
+                    if let success = vm?.successMessage {
+                        HStack(spacing: 6) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(Color.somLimeSecondary)
+                            Text(success)
+                                .font(.hanSansNeoMedium(size: 13))
+                                .foregroundStyle(Color.somLimeSecondary)
+                        }
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(
+                            Capsule()
+                                .fill(Color.somLimeSecondary.opacity(0.1))
+                        )
+                        .padding(.top, 8)
+                    }
 
-                Button("Save Nickname") {
-                    Task { await vm?.updateNickname() }
+                    if let error = vm?.errorMessage {
+                        HStack(spacing: 6) {
+                            Image(systemName: "exclamationmark.circle.fill")
+                                .foregroundStyle(.red)
+                            Text(error)
+                                .font(.hanSansNeoMedium(size: 13))
+                                .foregroundStyle(.red)
+                        }
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(
+                            Capsule()
+                                .fill(.red.opacity(0.1))
+                        )
+                        .padding(.top, 8)
+                    }
+
+                    // Nickname section
+                    settingsCard {
+                        cardHeader("닉네임")
+
+                        HStack(spacing: 12) {
+                            TextField("닉네임을 입력하세요", text: Binding(
+                                get: { vm?.nickname ?? "" },
+                                set: { vm?.nickname = $0 }
+                            ))
+                            .font(.hanSansNeoRegular(size: 15))
+                            .padding(12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.somLimeGroupedBackground)
+                            )
+
+                            Button {
+                                Task { await vm?.updateNickname() }
+                            } label: {
+                                Text("저장")
+                                    .font(.hanSansNeoBold(size: 14))
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 12)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(Color.somLimePrimary)
+                                    )
+                            }
+                            .disabled(vm?.isLoading == true)
+                        }
+                    }
+
+                    // Email section (read-only)
+                    settingsCard {
+                        cardHeader("이메일")
+
+                        HStack {
+                            Image(systemName: "envelope.fill")
+                                .font(.system(size: 14))
+                                .foregroundStyle(Color.somLimeSecondaryLabel)
+                            Text(vm?.email ?? "")
+                                .font(.hanSansNeoRegular(size: 15))
+                                .foregroundStyle(Color.somLimeLabel)
+                            Spacer()
+                            Image(systemName: "lock.fill")
+                                .font(.system(size: 11))
+                                .foregroundStyle(Color.somLimeSystemGray)
+                        }
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.somLimeGroupedBackground)
+                        )
+                    }
+
+                    // Account actions
+                    settingsCard {
+                        cardHeader("계정 관리")
+
+                        NavigationLink(value: Route.changePassword) {
+                            HStack(spacing: 12) {
+                                Image(systemName: "lock.rotation")
+                                    .font(.system(size: 15))
+                                    .foregroundStyle(Color.somLimePrimary)
+                                    .frame(width: 20, alignment: .center)
+                                Text("비밀번호 변경")
+                                    .font(.hanSansNeoMedium(size: 14))
+                                    .foregroundStyle(Color.somLimeLabel)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 12, weight: .medium))
+                                    .foregroundStyle(.tertiary)
+                            }
+                            .padding(.vertical, 4)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                    }
+
+                    // Danger zone
+                    VStack(alignment: .leading, spacing: 12) {
+                        Button {
+                            showDeleteConfirmation = true
+                        } label: {
+                            HStack(spacing: 12) {
+                                Image(systemName: "trash.fill")
+                                    .font(.system(size: 15))
+                                Text("계정 삭제")
+                                    .font(.hanSansNeoMedium(size: 14))
+                            }
+                            .foregroundStyle(.red.opacity(0.8))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(16)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(.red.opacity(0.05))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .strokeBorder(.red.opacity(0.15), lineWidth: 1)
+                                    )
+                            )
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 40)
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(Color.somLimePrimary)
-                .disabled(vm?.isLoading == true)
             }
-            .padding(.horizontal, 40)
-
-            // Email (read-only)
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Email")
-                    .font(.hanSansNeoBold(size: 14))
-                    .foregroundStyle(.secondary)
-                Text(vm?.email ?? "")
-                    .font(.hanSansNeoRegular(size: 15))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(8)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(6)
-            }
-            .padding(.horizontal, 40)
-
-            if let success = vm?.successMessage {
-                Text(success)
-                    .foregroundStyle(.green)
-                    .font(.caption)
-            }
-
-            if let error = vm?.errorMessage {
-                Text(error)
-                    .foregroundStyle(.red)
-                    .font(.caption)
-            }
-
-            // Change Password
-            NavigationLink(value: Route.changePassword) {
-                HStack {
-                    Image(systemName: "lock")
-                    Text("Change Password")
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                }
-                .padding(.horizontal, 40)
-            }
-
-            Spacer()
-
-            // Delete Account
-            Button(role: .destructive) {
-                showDeleteConfirmation = true
-            } label: {
-                Text("Delete Account")
-                    .font(.hanSansNeoBold(size: 15))
-                    .foregroundColor(.red)
-                    .frame(maxWidth: .infinity)
-            }
-            .padding(.horizontal, 40)
-            .padding(.bottom, 40)
         }
         .background(Color.somLimeBackground)
         .navigationBarHidden(true)
@@ -104,11 +172,11 @@ struct ProfileSettingsScreen: View {
             vm = container.resolve(ProfileSettingsViewModel.self) as? ProfileSettingsViewModelImpl
             await vm?.loadProfile()
         }
-        .alert("Delete Account", isPresented: $showDeleteConfirmation) {
-            TextField("Email", text: $deleteEmail)
-                .autocapitalization(.none)
-            SecureField("Password", text: $deletePassword)
-            Button("Delete", role: .destructive) {
+        .alert("계정 삭제", isPresented: $showDeleteConfirmation) {
+            TextField("이메일", text: $deleteEmail)
+                .textInputAutocapitalization(.never)
+            SecureField("비밀번호", text: $deletePassword)
+            Button("삭제", role: .destructive) {
                 Task {
                     let success = await vm?.deleteAccount(email: deleteEmail, password: deletePassword) ?? false
                     if success {
@@ -116,10 +184,61 @@ struct ProfileSettingsScreen: View {
                     }
                 }
             }
-            Button("Cancel", role: .cancel) {}
+            Button("취소", role: .cancel) {}
         } message: {
-            Text("Enter your credentials to permanently delete your account. This cannot be undone.")
+            Text("계정을 영구적으로 삭제하려면 자격 증명을 입력하세요. 이 작업은 되돌릴 수 없습니다.")
         }
+    }
+
+    // MARK: - Nav Bar
+
+    private var navBar: some View {
+        HStack(spacing: 16) {
+            Button { dismiss() } label: {
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundStyle(Color.somLimeLabel)
+                    .frame(width: 36, height: 36)
+                    .background(Color.somLimeLightPrimary)
+                    .clipShape(Circle())
+            }
+            .accessibilityLabel("뒤로 가기")
+
+            Spacer()
+
+            Text("프로필 설정")
+                .font(.hanSansNeoBold(size: 20))
+                .foregroundStyle(Color.somLimeLabel)
+
+            Spacer()
+
+            Color.clear.frame(width: 36, height: 36)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .background(Color.somLimeBackground)
+        .overlay(alignment: .bottom) { Divider() }
+    }
+
+    // MARK: - Settings Card
+
+    private func settingsCard<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            content()
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.somLimeBackground)
+                .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+        )
+        .padding(.horizontal, 16)
+    }
+
+    private func cardHeader(_ title: String) -> some View {
+        Text(title)
+            .font(.hanSansNeoBold(size: 14))
+            .foregroundStyle(Color.somLimeSecondaryLabel)
     }
 }
 

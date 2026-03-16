@@ -27,6 +27,7 @@ struct SignUpScreen: View {
                         .background(Color.somLimeLightPrimary)
                         .clipShape(Circle())
                 }
+                .accessibilityLabel("뒤로 가기")
                 Spacer()
                 Text("회원가입")
                     .font(.hanSansNeoBold(size: 18))

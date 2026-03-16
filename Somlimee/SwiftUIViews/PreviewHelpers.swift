@@ -80,7 +80,8 @@ enum PreviewData {
         target: "post_0",
         publishedTime: "2024-03-01 12:30",
         isRevised: false,
-        text: "정말 좋은 글이네요! 공감합니다."
+        text: "정말 좋은 글이네요! 공감합니다.",
+        boardName: "SDR"
     )
 
     static let sampleComments: [LimeRoomPostComment] = [
@@ -92,7 +93,8 @@ enum PreviewData {
             target: "post_0",
             publishedTime: "2024-03-01 14:15",
             isRevised: false,
-            text: "저도 같은 생각이에요."
+            text: "저도 같은 생각이에요.",
+            boardName: "SDR"
         )
     ]
 

@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct BoardHotKeyData{
+struct BoardHotKeyData: Codable {
     let boardHotkeywordsList: [String]
 }

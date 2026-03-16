@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct LimeRoomPostList{
+    var list: [LimeRoomPostMeta]
+}

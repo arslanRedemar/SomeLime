@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct LimeRoomMeta{
+    var limeRoomName: String
+    var limeRoomDescription: String
+    var limeRoomTabs: [String]
+    var limeRoomImageName: String
+}

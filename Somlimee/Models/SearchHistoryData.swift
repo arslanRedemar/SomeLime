@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct SearchHistroy{
+struct SearchHistoryData: Codable {
     let history: [String]
 }

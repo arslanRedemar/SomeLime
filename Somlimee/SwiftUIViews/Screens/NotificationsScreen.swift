@@ -5,41 +5,26 @@
 
 import SwiftUI
 
-// MARK: - Notification Model (temporary until backend is wired)
-
-private struct AppNotification: Identifiable {
-    let id: String
-    let type: NotificationType
-    let senderName: String
-    let message: String
-    let boardName: String
-    let postId: String
-    let timestamp: String
-    var isRead: Bool
-
-    enum NotificationType {
-        case comment, reply, upvote, mention
-    }
-}
-
 struct NotificationsScreen: View {
+    @Environment(\.diContainer) private var container
     @Environment(\.dismiss) private var dismiss
-    @State private var notifications: [AppNotification] = []
+    @State private var vm: NotificationViewModelImpl?
     @State private var selectedFilter = 0
 
     private let filters = ["전체", "댓글", "추천", "언급"]
 
     private var filtered: [AppNotification] {
+        guard let notifications = vm?.notifications else { return [] }
         switch selectedFilter {
-        case 1: notifications.filter { $0.type == .comment || $0.type == .reply }
-        case 2: notifications.filter { $0.type == .upvote }
-        case 3: notifications.filter { $0.type == .mention }
-        default: notifications
+        case 1: return notifications.filter { $0.type == .comment || $0.type == .reply }
+        case 2: return notifications.filter { $0.type == .upvote }
+        case 3: return notifications.filter { $0.type == .mention }
+        default: return notifications
         }
     }
 
     private var unreadCount: Int {
-        notifications.filter { !$0.isRead }.count
+        vm?.unreadCount ?? 0
     }
 
     var body: some View {
@@ -50,6 +35,11 @@ struct NotificationsScreen: View {
         }
         .background(Color.somLimeBackground)
         .navigationBarHidden(true)
+        .task {
+            guard vm == nil else { return }
+            vm = container.resolve(NotificationViewModel.self) as? NotificationViewModelImpl
+            await vm?.loadNotifications()
+        }
     }
 
     // MARK: - Nav Bar
@@ -64,6 +54,7 @@ struct NotificationsScreen: View {
                     .background(Color.somLimeLightPrimary)
                     .clipShape(Circle())
             }
+            .accessibilityLabel("뒤로 가기")
 
             Spacer()
 
@@ -75,11 +66,7 @@ struct NotificationsScreen: View {
 
             if unreadCount > 0 {
                 Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        for i in notifications.indices {
-                            notifications[i].isRead = true
-                        }
-                    }
+                    Task { await vm?.markAllAsRead() }
                 } label: {
                     Text("모두 읽음")
                         .font(.hanSansNeoMedium(size: 12))
@@ -125,22 +112,37 @@ struct NotificationsScreen: View {
 
     private var notificationList: some View {
         ScrollView {
+            if let error = vm?.errorMessage {
+
+                Text(error)
+                    .font(.hanSansNeoRegular(size: 13))
+                    .foregroundStyle(.red)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+            }
+
             if filtered.isEmpty {
                 emptyState
             } else {
                 LazyVStack(spacing: 0) {
                     ForEach(filtered) { item in
-                        NavigationLink(value: Route.boardPost(boardName: item.boardName, postId: item.postId)) {
-                            notificationCell(item)
-                        }
-                        .buttonStyle(.plain)
-                        .simultaneousGesture(TapGesture().onEnded {
-                            markAsRead(item.id)
-                        })
+                        notificationCell(item)
+                            .onTapGesture {
+                                Task { await vm?.markAsRead(id: item.id) }
+                            }
+                            .background(
+                                NavigationLink(value: notificationRoute(for: item)) {
+                                    EmptyView()
+                                }
+                                .opacity(0)
+                            )
                         Divider().padding(.leading, 60)
                     }
                 }
             }
+        }
+        .refreshable {
+            await vm?.loadNotifications()
         }
     }
 
@@ -163,13 +165,15 @@ struct NotificationsScreen: View {
                         .font(.hanSansNeoMedium(size: 14))
                         .foregroundStyle(Color.somLimeLabel)
 
-                    Text(item.boardName)
-                        .font(.hanSansNeoMedium(size: 11))
-                        .foregroundStyle(Color.somLimePrimary)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(Color.somLimeLightPrimary)
-                        .clipShape(Capsule())
+                    if let boardName = item.boardName {
+                        Text(boardName)
+                            .font(.hanSansNeoMedium(size: 11))
+                            .foregroundStyle(Color.somLimePrimary)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(Color.somLimeLightPrimary)
+                            .clipShape(Capsule())
+                    }
 
                     Spacer()
 
@@ -223,13 +227,12 @@ struct NotificationsScreen: View {
         }
     }
 
-    private func markAsRead(_ id: String) {
-        guard let index = notifications.firstIndex(where: { $0.id == id }) else { return }
-        withAnimation(.easeInOut(duration: 0.2)) {
-            notifications[index].isRead = true
+    private func notificationRoute(for item: AppNotification) -> Route {
+        if let boardName = item.boardName, let postId = item.postId {
+            return .boardPost(boardName: boardName, postId: postId)
         }
+        return .notifications
     }
-
 }
 
 #if DEBUG
@@ -237,5 +240,6 @@ struct NotificationsScreen: View {
     NavigationStack {
         NotificationsScreen()
     }
+    .previewWithContainer()
 }
 #endif

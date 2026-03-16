@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct LimeRoomPostContent{
+    var paragraph: String
+    var imageURLs: [String]
+    var imgLocation: [Int]
+    var comments: [LimeRoomPostComment]
+}

@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct UserStatus{
+    let isLoggedIn: Bool
+}

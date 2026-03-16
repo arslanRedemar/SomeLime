@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct MenuList{
+    var list: [String]
+}

@@ -10,27 +10,47 @@ struct CommentInputView: View {
     let isSubmitting: Bool
     let onSubmit: () -> Void
 
+    private var canSubmit: Bool {
+        !text.trimmingCharacters(in: .whitespaces).isEmpty && !isSubmitting
+    }
+
     var body: some View {
-        HStack(spacing: 8) {
-            TextField("Write a comment...", text: $text)
+        HStack(spacing: 10) {
+            TextField("댓글을 입력하세요...", text: $text)
                 .font(.hanSansNeoRegular(size: 14))
-                .textFieldStyle(.roundedBorder)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(
+                    Capsule()
+                        .fill(Color.somLimeLightPrimary)
+                )
                 .disabled(isSubmitting)
 
             Button(action: onSubmit) {
-                if isSubmitting {
-                    ProgressView()
-                        .frame(width: 24, height: 24)
-                } else {
-                    Image(systemName: "paperplane.fill")
-                        .foregroundColor(text.trimmingCharacters(in: .whitespaces).isEmpty ? .somLimeSystemGray : .somLimePrimary)
+                Group {
+                    if isSubmitting {
+                        ProgressView()
+                    } else {
+                        Image(systemName: "paperplane.fill")
+                            .font(.system(size: 15, weight: .medium))
+                    }
                 }
+                .foregroundStyle(canSubmit ? Color.white : Color.somLimeSystemGray)
+                .frame(width: 36, height: 36)
+                .background(
+                    Circle()
+                        .fill(canSubmit ? Color.somLimePrimary.gradient : AnyGradient(Gradient(colors: [Color.somLimeSystemGray.opacity(0.3)])))
+                )
             }
-            .disabled(text.trimmingCharacters(in: .whitespaces).isEmpty || isSubmitting)
+            .disabled(!canSubmit)
+            .accessibilityLabel("댓글 전송")
         }
-        .padding(.horizontal)
-        .padding(.vertical, 8)
-        .background(.ultraThinMaterial)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .background(Color.somLimeBackground)
+        .overlay(alignment: .top) {
+            Divider()
+        }
     }
 }
 

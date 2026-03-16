@@ -9,6 +9,7 @@ import Foundation
 
 enum DataSourceFailures: Error{
     case CouldNotFindRemoteDataBase
+    case CouldNotUpdateData
     case CouldNotFindDocument
     case DocumentIsEmpty
     case CouldNotWritePost

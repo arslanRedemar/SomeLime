@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct LimeRoomList {
+    let list: [String]
+}

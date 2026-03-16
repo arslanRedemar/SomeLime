@@ -25,14 +25,17 @@ final class ForgotPasswordViewModelImpl: ForgotPasswordViewModel {
     }
 
     func sendPasswordReset(email: String) async {
+        Log.vm.info("ForgotPasswordViewModel.sendPasswordReset: email=\(email)")
         isLoading = true
         successMessage = nil
         errorMessage = nil
         defer { isLoading = false }
         do {
             try await authRepo.sendPasswordReset(email: email)
+            Log.vm.info("ForgotPasswordViewModel.sendPasswordReset: success")
             successMessage = "Password reset email sent. Check your inbox."
         } catch {
+            Log.vm.error("ForgotPasswordViewModel.sendPasswordReset: failed — \(error)")
             errorMessage = "Failed to send reset email. Please check the email address."
         }
     }

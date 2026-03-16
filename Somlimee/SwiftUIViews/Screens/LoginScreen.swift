@@ -17,6 +17,7 @@ struct LoginScreen: View {
         VStack(spacing: 20) {
             HStack {
                 Button { dismiss() } label: { Image(systemName: "chevron.left") }
+                    .accessibilityLabel("뒤로 가기")
                 Spacer()
             }
             .padding()
@@ -41,7 +42,7 @@ struct LoginScreen: View {
             if let error = errorMessage {
                 Text(error)
                     .foregroundStyle(.red)
-                    .font(.caption)
+                    .font(.hanSansNeoRegular(size: 12))
             }
 
             Button("Log In") {
@@ -49,6 +50,12 @@ struct LoginScreen: View {
                     do {
                         let auth = container.resolve(AuthRepository.self)!
                         try await auth.signIn(email: email, password: password)
+                        // Ensure Users/{uid} document exists (legacy account migration)
+                        let userRepo = container.resolve(UserRepository.self)!
+                        if try await userRepo.getUserData() == nil {
+                            try await userRepo.createInitialProfile(email: email)
+                        }
+                        NotificationCenter.default.post(name: .authStateDidChange, object: nil)
                         dismiss()
                     } catch {
                         errorMessage = "Login failed"

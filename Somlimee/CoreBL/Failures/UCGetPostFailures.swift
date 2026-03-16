@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+enum UCGetPostFailures: Error{
+    case EmptyData
+}

@@ -6,12 +6,12 @@
 //
 
 import Foundation
-import UIKit
 
-struct BoardPostContentData {
+struct BoardPostContentData: Codable {
     let boardPostTap: String
     let boardPostUserId: String
     let boardPostTitle: String
     let boardPostParagraph: String
-    let boardPostImages: [UIImage]
+    let boardPostImageURLs: [String]
+    let boardPostComments: [BoardPostCommentData]
 }

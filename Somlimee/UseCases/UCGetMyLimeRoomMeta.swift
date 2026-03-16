@@ -6,58 +6,34 @@
 //
 
 import Foundation
-import UIKit
 
-protocol UCMyLimeRoomMeta {
-    func gerMyLimeRoom() async -> Result<LimeRoomMeta, Error>
-    func getMyLimeRoomPostList() async -> Result<LimeRoomPostList, Error>
+protocol UCGetMyLimeRoomMeta {
+    func getMyLimeRoom() async -> Result<LimeRoomMeta, Error>
 }
 
-class UCMyLimeRoomMetaImpl: UCMyLimeRoomMeta{
-    
-    var boardRepository: BoardRepository!
-    var userRepository: UserRepository!
-    
-    init(){
-        boardRepository = AppDelegate.container.resolve(BoardRepository.self)
-        userRepository = AppDelegate.container.resolve(UserRepository.self)
+class UCGetMyLimeRoomMetaImpl: UCGetMyLimeRoomMeta{
+    private let boardRepository: BoardRepository
+    private let userRepository: UserRepository
+
+    init(userRepository: UserRepository, boardRepository: BoardRepository){
+        self.boardRepository = boardRepository
+        self.userRepository = userRepository
     }
-    
-    
-    func gerMyLimeRoom() async -> Result<LimeRoomMeta, Error> {
+
+    func getMyLimeRoom() async -> Result<LimeRoomMeta, Error> {
+        Log.useCase.debug("UCGetMyLimeRoomMeta.getMyLimeRoom: start")
         do{
-            
             guard let name = try await userRepository.getUserData()?.personalityType else {
-                throw UCMyLimeRoomMetaFailures.EmptyPersonalityType
+                throw UCGetMyLimeRoomMetaFailures.EmptyPersonalityType
             }
             guard let data = try await boardRepository.getBoardInfoData(name: name) else {
-                throw UCMyLimeRoomMetaFailures.EmptyLimeRoom
+                throw UCGetMyLimeRoomMetaFailures.EmptyLimeRoom
             }
-            return .success(LimeRoomMeta(limeRoomName: data.boardName, limeRoomDescription: data.boardDescription, limeRoomTabs: data.tapList, limeRoomImage: UIImage(named: name)!))
+            Log.useCase.debug("UCGetMyLimeRoomMeta.getMyLimeRoom: success — type=\(name)")
+            return .success(LimeRoomMeta(limeRoomName: data.boardName, limeRoomDescription: data.boardDescription, limeRoomTabs: data.tapList, limeRoomImageName: name))
         }catch {
+            Log.useCase.error("UCGetMyLimeRoomMeta.getMyLimeRoom: failed — \(error)")
             return .failure(error)
         }
     }
-    
-    
-    func getMyLimeRoomPostList() async -> Result<LimeRoomPostList, Error> {
-        do{
-            
-            guard let userData = try await userRepository.getUserData() else {
-                throw UCMyLimeRoomMetaFailures.EmptyUserData
-            }
-            guard let data = try await boardRepository.getBoardPostMetaList(boardName: userData.personalityType, startTime: Date(timeIntervalSinceNow: 0).description, counts: 5) else {
-                throw UCMyLimeRoomMetaFailures.EmptyPostList
-            }
-            var list: [LimeRoomPostMeta] = []
-            for meta in data {
-                list.append(LimeRoomPostMeta(userID: meta.userID, userName: userData.userName, title: meta.postTitle, views: meta.numberOfViews, publishedTime: meta.publishedTime, numOfVotes: meta.numberOfVoteUps, numOfComments: meta.numberOfComments, postID: meta.postID, boardPostTap: meta.boardTap))
-            }
-            return .success(LimeRoomPostList(list: list))
-        }catch {
-            return .failure(error)
-        }
-       
-    }
-    
 }

@@ -19,6 +19,7 @@ struct UserCurrentCommentsScreen: View {
                     Image(systemName: "chevron.left")
                         .foregroundColor(.somLimeLabel)
                 }
+                .accessibilityLabel("뒤로 가기")
                 Spacer()
                 Text("My Comments")
                     .font(.hanSansNeoBold(size: 18))
@@ -36,33 +37,39 @@ struct UserCurrentCommentsScreen: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         ForEach(Array(comments.enumerated()), id: \.offset) { _, comment in
-                            VStack(alignment: .leading, spacing: 6) {
-                                HStack {
-                                    Text(comment.userName)
-                                        .font(.hanSansNeoMedium(size: 13))
+                            NavigationLink(value: Route.boardPost(boardName: comment.boardName, postId: comment.postID)) {
+                                VStack(alignment: .leading, spacing: 6) {
+                                    HStack {
+                                        Text(comment.userName)
+                                            .font(.hanSansNeoMedium(size: 13))
+                                            .foregroundColor(.somLimeLabel)
+                                        Spacer()
+                                        Text(comment.publishedTime.prefix(16))
+                                            .font(.hanSansNeoLight(size: 11))
+                                            .foregroundColor(.somLimeSystemGray)
+                                    }
+
+                                    Text(comment.text)
+                                        .font(.hanSansNeoRegular(size: 14))
                                         .foregroundColor(.somLimeLabel)
-                                    Spacer()
-                                    Text(comment.publishedTime.prefix(16))
-                                        .font(.hanSansNeoLight(size: 11))
-                                        .foregroundColor(.somLimeSystemGray)
-                                }
+                                        .lineLimit(3)
 
-                                Text(comment.text)
-                                    .font(.hanSansNeoRegular(size: 14))
-                                    .foregroundColor(.somLimeLabel)
-                                    .lineLimit(3)
-
-                                if !comment.postID.isEmpty {
-                                    Text("Post: \(comment.postID)")
-                                        .font(.hanSansNeoLight(size: 11))
-                                        .foregroundColor(.somLimeSystemGray)
+                                    if !comment.postID.isEmpty {
+                                        Text("Post: \(comment.postID)")
+                                            .font(.hanSansNeoLight(size: 11))
+                                            .foregroundColor(.somLimeSystemGray)
+                                    }
                                 }
+                                .padding(.horizontal)
+                                .padding(.vertical, 12)
                             }
-                            .padding(.horizontal)
-                            .padding(.vertical, 12)
+                            .buttonStyle(.plain)
                             Divider().padding(.leading)
                         }
                     }
+                }
+                .refreshable {
+                    await vm?.loadComments()
                 }
             } else {
                 Spacer()

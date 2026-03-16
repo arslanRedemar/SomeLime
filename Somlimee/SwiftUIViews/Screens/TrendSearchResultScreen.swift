@@ -20,6 +20,7 @@ struct TrendSearchResultScreen: View {
                     Image(systemName: "chevron.left")
                         .foregroundStyle(Color.somLimeLabel)
                 }
+                .accessibilityLabel("뒤로 가기")
                 Spacer()
                 Text("\"\(keyword)\" 검색 결과")
                     .font(.hanSansNeoBold(size: 16))
@@ -75,6 +76,9 @@ struct TrendSearchResultScreen: View {
                             }
                         }
                     }
+                }
+                .refreshable {
+                    await viewModel?.search()
                 }
             }
         }

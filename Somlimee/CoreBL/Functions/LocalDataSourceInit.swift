@@ -25,8 +25,8 @@ func localDataSourceInit(database: Connection?) async throws -> Void{
         try await SQLiteDatabaseCommands.insertCategoryRow("조화성", database: database)
         try await SQLiteDatabaseCommands.insertCategoryRow("무결정", database: database)
 
-        // Add Boards for the first time — personality type codes matching Firestore BoardInfo docs.
-        for boardCode in SomeLiMePTTypeDesc.typeDetail.keys.sorted() {
+        // Add Boards for the first time — personality type codes + general boards matching Firestore BoardInfo docs.
+        for boardCode in BoardRegistry.allBoards {
             try await SQLiteDatabaseCommands.insertBoardRow(boardCode, database: database)
         }
 
@@ -42,4 +42,15 @@ func localDataSourceInit(database: Connection?) async throws -> Void{
         return
     }
 
+    // Migration: ensure board data matches current board registry (personality + general boards).
+    // Old installs may have stale board names from a previous version.
+    let currentBoards = try? await SQLiteDatabaseCommands.presentBoardRows(database: database)
+    let boardList = (currentBoards?["list"] as? [String]) ?? []
+    let expectedCodes = Set(BoardRegistry.allBoards)
+    if Set(boardList) != expectedCodes {
+        try await SQLiteDatabaseCommands.deleteAllBoardRows(database: database)
+        for boardCode in BoardRegistry.allBoards {
+            try await SQLiteDatabaseCommands.insertBoardRow(boardCode, database: database)
+        }
+    }
 }

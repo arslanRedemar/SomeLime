@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct UserCurrentPosts {
+    let list: [LimeRoomPostMeta]
+}

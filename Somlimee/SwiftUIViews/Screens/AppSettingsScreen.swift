@@ -19,6 +19,7 @@ struct AppSettingsScreen: View {
                     Image(systemName: "chevron.left")
                         .foregroundColor(.somLimeLabel)
                 }
+                .accessibilityLabel("뒤로 가기")
                 Spacer()
                 Text("Settings")
                     .font(.hanSansNeoBold(size: 18))

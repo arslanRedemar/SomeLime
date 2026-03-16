@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+
+struct SomeLimeTrends{
+    var list: [String]
+}

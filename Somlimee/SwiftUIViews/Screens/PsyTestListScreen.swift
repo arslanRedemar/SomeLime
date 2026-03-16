@@ -19,6 +19,7 @@ struct PsyTestListScreen: View {
                     Image(systemName: "chevron.left")
                         .foregroundStyle(Color.somLimeLabel)
                 }
+                .accessibilityLabel("뒤로 가기")
                 Spacer()
                 Text("심리 테스트")
                     .font(.hanSansNeoBold(size: 18))

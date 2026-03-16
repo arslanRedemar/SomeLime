@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct CategoryData{
+struct CategoryData: Codable {
     let list: [String]
 }

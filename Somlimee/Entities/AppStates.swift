@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct AppStates{
+    var isFirstTimeLaunched: Bool
+    let isNeedToUpdateLocalDataSource: Bool
+}

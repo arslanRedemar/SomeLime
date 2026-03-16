@@ -16,6 +16,7 @@ struct ForgotPasswordScreen: View {
         VStack(spacing: 20) {
             HStack {
                 Button { dismiss() } label: { Image(systemName: "chevron.left") }
+                    .accessibilityLabel("뒤로 가기")
                 Spacer()
                 Text("Forgot Password")
                     .font(.hanSansNeoBold(size: 18))
@@ -44,14 +45,14 @@ struct ForgotPasswordScreen: View {
             if let success = vm?.successMessage {
                 Text(success)
                     .foregroundStyle(.green)
-                    .font(.caption)
+                    .font(.hanSansNeoRegular(size: 12))
                     .padding(.horizontal, 40)
             }
 
             if let error = vm?.errorMessage {
                 Text(error)
                     .foregroundStyle(.red)
-                    .font(.caption)
+                    .font(.hanSansNeoRegular(size: 12))
                     .padding(.horizontal, 40)
             }
 

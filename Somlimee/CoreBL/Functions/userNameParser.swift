@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseFirestore
 
-func userNameParser(uid: String) async throws -> String? {
-    // Simply Converts UID to UserName
-    guard let db = FirebaseDataSource.sharedInstance.database else {
+func userNameParser(uid: String, database: Firestore?) async throws -> String? {
+    guard let db = database else {
         throw DataSourceFailures.CouldNotFindRemoteDataBase
     }
     guard uid != "" else{

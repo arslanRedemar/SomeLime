@@ -10,6 +10,7 @@ import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
+import os
 
 
 final class FirebaseDataSource: RemoteDataSource {
@@ -35,7 +36,9 @@ final class FirebaseDataSource: RemoteDataSource {
     }
 
     func getLimeTrendsData() async throws -> [String : Any]? {
+        Log.data.debug("getLimeTrendsData: start")
         guard let db = database else {
+            Log.data.error("getLimeTrendsData: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         let docRef = db.collection("RealTime").document("RTLimeTrends")
@@ -43,21 +46,31 @@ final class FirebaseDataSource: RemoteDataSource {
         do {
             document = try await docRef.getDocument()
         }catch{
+            Log.data.error("getLimeTrendsData: failed — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotFindDocument
         }
-        guard let raw = document.data() else { return nil }
+        guard let raw = document.data() else {
+            Log.data.info("getLimeTrendsData: no data")
+            return nil
+        }
+        Log.data.debug("getLimeTrendsData: success")
         return convertTimestamps(raw)
     }
 
     func isUserLoggedIn() async throws -> Bool {
-        return Auth.auth().currentUser?.uid != nil
+        let result = Auth.auth().currentUser?.uid != nil
+        Log.data.debug("isUserLoggedIn: \(result)")
+        return result
     }
 
     func getUserData() async throws -> [String : Any]? {
+        Log.data.debug("getUserData: start")
         guard let uid = Auth.auth().currentUser?.uid else {
+            Log.data.info("getUserData: no current user")
             return nil
         }
         guard let db = database else{
+            Log.data.error("getUserData: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         let docRef = db.collection("Users").document(uid)
@@ -65,9 +78,14 @@ final class FirebaseDataSource: RemoteDataSource {
         do {
             document = try await docRef.getDocument()
         }catch{
+            Log.data.error("getUserData: failed — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotFindDocument
         }
-        guard let raw = document.data() else { return nil }
+        guard let raw = document.data() else {
+            Log.data.info("getUserData: no data for uid=\(uid)")
+            return nil
+        }
+        Log.data.debug("getUserData: success for uid=\(uid)")
         return convertTimestamps(raw)
     }
 
@@ -76,36 +94,47 @@ final class FirebaseDataSource: RemoteDataSource {
     }
 
     func getBoardInfoData(boardName: String) async throws -> [String : Any]? {
+        Log.data.debug("getBoardInfoData: board=\(boardName)")
         guard let db = database else{
+            Log.data.error("getBoardInfoData: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         do {
-            guard boardName != "" else{ return nil }
+            guard boardName != "" else{
+                Log.data.info("getBoardInfoData: empty boardName")
+                return nil
+            }
             let parsedBoardName = parseBoardName(boardName)
             let docRef = db.collection("BoardInfo").document(parsedBoardName)
             let document: DocumentSnapshot
             document = try await docRef.getDocument()
-            guard let raw = document.data() else { return nil }
+            guard let raw = document.data() else {
+                Log.data.info("getBoardInfoData: no data for \(boardName)")
+                return nil
+            }
+            Log.data.debug("getBoardInfoData: success for \(boardName)")
             return convertTimestamps(raw)
         }catch{
+            Log.data.error("getBoardInfoData: failed for \(boardName) — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotFindDocument
         }
     }
 
-    func getBoardPostMetaList(boardName: String, startTime: String, counts: Int) async throws -> [[String : Any]]? {
+    func getBoardPostMetaList(boardName: String, startTime: String?, counts: Int) async throws -> [[String : Any]]? {
+        Log.data.debug("getBoardPostMetaList: board=\(boardName) startTime=\(startTime ?? "nil") counts=\(counts)")
         guard let db = database else{
+            Log.data.error("getBoardPostMetaList: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         do {
             var colRef: Query
             guard boardName != "" else{ return nil }
-            guard startTime != "" else{ return nil }
             guard counts != 0 else { return nil }
             let parsedBoardName = parseBoardName(boardName)
-            if startTime == "NaN"{
-                colRef = db.collection("BoardInfo").document(parsedBoardName).collection("Posts").order(by: "PublishedTime", descending: true).limit(to: counts)
-            }else{
+            if let startTime, !startTime.isEmpty {
                 colRef = db.collection("BoardInfo").document(parsedBoardName).collection("Posts").whereField("PublishedTime", isGreaterThanOrEqualTo: startTime).order(by: "PublishedTime", descending: true).limit(to: counts)
+            } else {
+                colRef = db.collection("BoardInfo").document(parsedBoardName).collection("Posts").order(by: "PublishedTime", descending: true).limit(to: counts)
             }
             let documents: QuerySnapshot
             documents = try await colRef.getDocuments()
@@ -115,26 +144,29 @@ final class FirebaseDataSource: RemoteDataSource {
                 temp["PostId"] = document.documentID
                 data.append(temp)
             }
+            Log.data.debug("getBoardPostMetaList: returned \(data.count) posts for \(boardName)")
             return data
         }catch{
+            Log.data.error("getBoardPostMetaList: failed for \(boardName) — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotFindDocument
         }
     }
 
-    func getBoardHotPostsList(boardName: String, startTime: String, counts: Int) async throws -> [String]? {
+    func getBoardHotPostsList(boardName: String, startTime: String?, counts: Int) async throws -> [String]? {
+        Log.data.debug("getBoardHotPostsList: board=\(boardName) counts=\(counts)")
         guard let db = database else{
+            Log.data.error("getBoardHotPostsList: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         do {
             var colRef: Query
             guard boardName != "" else{ return nil }
-            guard startTime != "" else{ return nil }
             guard counts != 0 else { return nil }
             let parsedBoardName = parseBoardName(boardName)
-            if startTime == "NaN"{
-                colRef = db.collection("BoardHotPosts").document(parsedBoardName).collection("Posts").order(by: "PublishedTime", descending: true).limit(to: counts)
-            }else{
+            if let startTime, !startTime.isEmpty {
                 colRef = db.collection("BoardHotPosts").document(parsedBoardName).collection("Posts").whereField("PublishedTime", isGreaterThanOrEqualTo: startTime).order(by: "PublishedTime", descending: true).limit(to: counts)
+            } else {
+                colRef = db.collection("BoardHotPosts").document(parsedBoardName).collection("Posts").order(by: "PublishedTime", descending: true).limit(to: counts)
             }
             let documents: QuerySnapshot
             documents = try await colRef.getDocuments()
@@ -142,29 +174,40 @@ final class FirebaseDataSource: RemoteDataSource {
             for document in documents.documents {
                 data.append(document.documentID)
             }
+            Log.data.debug("getBoardHotPostsList: returned \(data.count) IDs for \(boardName)")
             return data
         }catch{
+            Log.data.error("getBoardHotPostsList: failed for \(boardName) — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotFindDocument
         }
     }
 
     func getBoardPostMeta(boardName: String, postId: String) async throws -> [String : Any]? {
+        Log.data.debug("getBoardPostMeta: board=\(boardName) postId=\(postId)")
         guard let db = database else{
+            Log.data.error("getBoardPostMeta: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         guard boardName != "" else{ return nil }
         let parsedBoardName = parseBoardName(boardName)
         do {
             let docRef = db.collection("BoardInfo").document(parsedBoardName).collection("Posts").document(postId)
-            guard let raw = try await docRef.getDocument().data() else { return nil }
+            guard let raw = try await docRef.getDocument().data() else {
+                Log.data.info("getBoardPostMeta: no data for \(postId)")
+                return nil
+            }
+            Log.data.debug("getBoardPostMeta: success for \(postId)")
             return convertTimestamps(raw)
         }catch{
+            Log.data.error("getBoardPostMeta: failed — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotFindDocument
         }
     }
 
     func getBoardPostContent(boardName: String, postId: String) async throws -> [[String : Any]]? {
+        Log.data.debug("getBoardPostContent: board=\(boardName) postId=\(postId)")
         guard let db = database else{
+            Log.data.error("getBoardPostContent: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         guard boardName != "" else{ return nil }
@@ -177,16 +220,20 @@ final class FirebaseDataSource: RemoteDataSource {
             data.append(try await docRef.document("Image").getDocument().data() ?? [:])
             data.append(try await docRef.document("Video").getDocument().data() ?? [:])
             data.append(try await docRef.document("Comments").getDocument().data() ?? [:])
+            Log.data.debug("getBoardPostContent: success for postId=\(postId)")
             return data
         }catch{
+            Log.data.error("getBoardPostContent: failed — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotFindDocument
         }
     }
 
     func createPost(boardName: String, postData: BoardPostContentData) async throws {
+        Log.data.info("createPost: board=\(boardName) title=\(postData.boardPostTitle)")
         guard boardName != "" else{ return }
         let parsedBoardName = parseBoardName(boardName)
         guard let db = database else{
+            Log.data.error("createPost: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         do {
@@ -214,12 +261,15 @@ final class FirebaseDataSource: RemoteDataSource {
             try await docRef.collection("BoardPostContents").document("Video").setData([
                 "URLs": [String]()
             ])
+            Log.data.info("createPost: success for board=\(boardName)")
         }catch{
+            Log.data.error("createPost: failed — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotFindDocument
         }
     }
 
     func writeComment(boardName: String, postId: String, target: String, text: String) async throws -> Void {
+        Log.data.info("writeComment: board=\(boardName) postId=\(postId)")
         guard let db = database else{
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
@@ -238,12 +288,15 @@ final class FirebaseDataSource: RemoteDataSource {
                 "PublishedTime": Date.now.description,
                 "IsRevised": "No",
             ])
+            Log.data.info("writeComment: success for postId=\(postId)")
         }catch{
+            Log.data.error("writeComment: failed — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotUpdateData
         }
     }
 
     func getComments(boardName: String, postId: String) async throws -> [[String: Any]]? {
+        Log.data.debug("getComments: board=\(boardName) postId=\(postId)")
         guard let db = database else{
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
@@ -259,13 +312,16 @@ final class FirebaseDataSource: RemoteDataSource {
                 temp["PostId"] = postId
                 data.append(temp)
             }
+            Log.data.debug("getComments: returned \(data.count) comments for postId=\(postId)")
             return data
         }catch{
+            Log.data.error("getComments: failed — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotFindDocument
         }
     }
 
     func updateUser(userInfo: [String: Any]) async throws -> Void {
+        Log.data.info("updateUser: keys=\(Array(userInfo.keys))")
         guard let db = database else {
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
@@ -274,33 +330,43 @@ final class FirebaseDataSource: RemoteDataSource {
         }
         let docRef = db.collection("Users").document(user.uid)
         try await docRef.setData(userInfo, merge: true)
+        Log.data.info("updateUser: success for uid=\(user.uid)")
     }
 
     func uploadImage(data: Data, path: String) async throws -> String {
+        Log.data.info("uploadImage: path=\(path) size=\(data.count) bytes")
         let storageRef = Storage.storage().reference().child(path)
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
         _ = try await storageRef.putDataAsync(data, metadata: metadata)
         let downloadURL = try await storageRef.downloadURL()
+        Log.data.info("uploadImage: success url=\(downloadURL.absoluteString)")
         return downloadURL.absoluteString
     }
 
     func deleteUser() async throws {
+        Log.data.info("deleteUser: start")
         guard let db = database else {
+            Log.data.error("deleteUser: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         guard let uid = Auth.auth().currentUser?.uid else {
+            Log.data.error("deleteUser: no current user")
             throw UserLoginFailures.LoginFailed
         }
         do {
             try await db.collection("Users").document(uid).delete()
+            Log.data.info("deleteUser: success for uid=\(uid)")
         } catch {
+            Log.data.error("deleteUser: failed — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotUpdateData
         }
     }
 
     func voteUpPost(boardName: String, postId: String) async throws {
+        Log.data.info("voteUpPost: board=\(boardName) postId=\(postId)")
         guard let db = database else {
+            Log.data.error("voteUpPost: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         guard boardName != "", postId != "" else { return }
@@ -319,13 +385,17 @@ final class FirebaseDataSource: RemoteDataSource {
                 transaction.updateData(["VoteUps": currentVotes + 1], forDocument: docRef)
                 return nil
             }
+            Log.data.info("voteUpPost: success for postId=\(postId)")
         } catch {
+            Log.data.error("voteUpPost: failed — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotUpdateData
         }
     }
 
     func createReport(boardName: String, postId: String, reason: String, detail: String) async throws {
+        Log.data.info("createReport: board=\(boardName) postId=\(postId) reason=\(reason)")
         guard let db = database else {
+            Log.data.error("createReport: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         let userId = Auth.auth().currentUser?.uid ?? ""
@@ -339,18 +409,22 @@ final class FirebaseDataSource: RemoteDataSource {
                 "ReportedTime": Date.now.description,
                 "Status": "pending"
             ])
+            Log.data.info("createReport: success")
         } catch {
+            Log.data.error("createReport: failed — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotUpdateData
         }
     }
 
     func getUserPosts(userId: String) async throws -> [[String: Any]]? {
+        Log.data.debug("getUserPosts: userId=\(userId)")
         guard let db = database else {
+            Log.data.error("getUserPosts: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         guard userId != "" else { return nil }
         do {
-            let boardList = Array(SomeLiMePTTypeDesc.typeDetail.keys)
+            let boardList = BoardRegistry.allBoards
             var allPosts: [[String: Any]] = []
             for board in boardList {
                 let colRef = db.collection("BoardInfo").document(board).collection("Posts")
@@ -365,19 +439,23 @@ final class FirebaseDataSource: RemoteDataSource {
                     allPosts.append(temp)
                 }
             }
+            Log.data.debug("getUserPosts: returned \(allPosts.count) posts")
             return allPosts
         } catch {
+            Log.data.error("getUserPosts: failed — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotFindDocument
         }
     }
 
     func getUserComments(userId: String) async throws -> [[String: Any]]? {
+        Log.data.debug("getUserComments: userId=\(userId)")
         guard let db = database else {
+            Log.data.error("getUserComments: database not found")
             throw DataSourceFailures.CouldNotFindRemoteDataBase
         }
         guard userId != "" else { return nil }
         do {
-            let boardList = Array(SomeLiMePTTypeDesc.typeDetail.keys)
+            let boardList = BoardRegistry.allBoards
             var allComments: [[String: Any]] = []
             for board in boardList {
                 let postsRef = db.collection("BoardInfo").document(board).collection("Posts").limit(to: 50)
@@ -396,9 +474,57 @@ final class FirebaseDataSource: RemoteDataSource {
                     }
                 }
             }
+            Log.data.debug("getUserComments: returned \(allComments.count) comments")
             return allComments
         } catch {
+            Log.data.error("getUserComments: failed — \(error.localizedDescription)")
             throw DataSourceFailures.CouldNotFindDocument
+        }
+    }
+
+    func getNotifications(limit: Int) async throws -> [[String: Any]]? {
+        Log.data.debug("getNotifications: limit=\(limit)")
+        guard let db = database else {
+            Log.data.error("getNotifications: database not found")
+            throw DataSourceFailures.CouldNotFindRemoteDataBase
+        }
+        guard let uid = Auth.auth().currentUser?.uid else { return nil }
+        do {
+            let colRef = db.collection("Notifications").document(uid).collection("items")
+                .order(by: "timestamp", descending: true)
+                .limit(to: limit)
+            let documents = try await colRef.getDocuments()
+            var data: [[String: Any]] = []
+            for document in documents.documents {
+                var temp = convertTimestamps(document.data())
+                temp["id"] = document.documentID
+                data.append(temp)
+            }
+            Log.data.debug("getNotifications: returned \(data.count) notifications")
+            return data
+        } catch {
+            Log.data.error("getNotifications: failed — \(error.localizedDescription)")
+            throw DataSourceFailures.CouldNotFindDocument
+        }
+    }
+
+    func markNotificationRead(notificationId: String) async throws {
+        Log.data.info("markNotificationRead: id=\(notificationId)")
+        guard let db = database else {
+            Log.data.error("markNotificationRead: database not found")
+            throw DataSourceFailures.CouldNotFindRemoteDataBase
+        }
+        guard let uid = Auth.auth().currentUser?.uid else {
+            Log.data.error("markNotificationRead: no current user")
+            throw UserLoginFailures.LoginFailed
+        }
+        do {
+            let docRef = db.collection("Notifications").document(uid).collection("items").document(notificationId)
+            try await docRef.updateData(["isRead": true])
+            Log.data.info("markNotificationRead: success for id=\(notificationId)")
+        } catch {
+            Log.data.error("markNotificationRead: failed — \(error.localizedDescription)")
+            throw DataSourceFailures.CouldNotUpdateData
         }
     }
 }

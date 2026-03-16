@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct UserCurrentComments {
+    
+    let list: [LimeRoomPostComment]
+}

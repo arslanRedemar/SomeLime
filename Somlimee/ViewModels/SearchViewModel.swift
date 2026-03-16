@@ -38,9 +38,11 @@ final class SearchViewModelImpl: SearchViewModel {
     }
 
     func loadBoards() async {
+        Log.vm.debug("SearchViewModel.loadBoards: start")
         let result = await searchUC.getAvailableBoards()
         if case .success(let boards) = result {
             availableBoards = boards.sorted()
+            Log.vm.debug("SearchViewModel.loadBoards: success — \(boards.count) boards")
         }
     }
 
@@ -48,6 +50,7 @@ final class SearchViewModelImpl: SearchViewModel {
         let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
 
+        Log.vm.info("SearchViewModel.search: query=\(trimmed) board=\(self.selectedBoard ?? "all")")
         isLoading = true
         errorMessage = nil
         defer { isLoading = false }
@@ -63,7 +66,9 @@ final class SearchViewModelImpl: SearchViewModel {
         case .success(let searchResult):
             results = searchResult.items
             groupedResults = searchResult.groupedByBoard
-        case .failure:
+            Log.vm.info("SearchViewModel.search: success — \(searchResult.items.count) results")
+        case .failure(let error):
+            Log.vm.error("SearchViewModel.search: failed — \(error)")
             results = []
             groupedResults = [:]
             errorMessage = "검색에 실패했습니다."

@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+struct RegistrationForm {
+    
+    var userID: String
+    
+    var userPW: String
+    
+    var emailVerified: Bool
+    
+}

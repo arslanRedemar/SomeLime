@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct HotBaoardRankingData{
+struct HotBoardRankingData: Codable {
     let realTimeBoardRanking: [String]
 }

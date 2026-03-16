@@ -9,32 +9,42 @@ struct LimeTestSection: View {
     let testList: [String]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Lime Tests")
-                .font(.hanSansNeoBold(size: 16))
-                .padding(.horizontal)
+        VStack(alignment: .leading, spacing: 12) {
+            Text("라임 테스트")
+                .font(.hanSansNeoBold(size: 17))
+                .foregroundStyle(Color.somLimeLabel)
+                .padding(.horizontal, 16)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(testList, id: \.self) { test in
                         NavigationLink(value: Route.personalityTest) {
-                            VStack {
+                            VStack(spacing: 0) {
                                 Image(test)
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: 100, height: 100)
-                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    .frame(width: 120, height: 120)
+                                    .clipped()
 
                                 Text(SomeLiMePTTypeDesc.typeDetail[test] ?? test)
-                                    .font(.hanSansNeoRegular(size: 11))
+                                    .font(.hanSansNeoMedium(size: 12))
                                     .foregroundStyle(Color.somLimeLabel)
                                     .lineLimit(2)
-                                    .frame(width: 100)
+                                    .multilineTextAlignment(.center)
+                                    .frame(width: 120)
+                                    .padding(.vertical, 10)
+                                    .padding(.horizontal, 8)
                             }
+                            .background(Color.somLimeBackground)
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.somLimeSystemGray.opacity(0.4), lineWidth: 1)
+                            )
                         }
                     }
                 }
-                .padding(.horizontal)
+                .padding(.horizontal, 16)
             }
         }
         .padding(.vertical, 8)

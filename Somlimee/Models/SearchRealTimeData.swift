@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct SearchRealTimeData{
+struct SearchRealTimeData: Codable {
     let SearchRealTimePosts: [BoardPostMetaData]
 }

@@ -9,22 +9,33 @@ struct CommentCellView: View {
     let comment: LimeRoomPostComment
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack {
-                Text(comment.userName)
-                    .font(.hanSansNeoBold(size: 13))
-                    .foregroundColor(.somLimeLabel)
-                Spacer()
-                Text(comment.publishedTime)
-                    .font(.hanSansNeoLight(size: 11))
-                    .foregroundColor(.somLimeSystemGray)
+        HStack(alignment: .top, spacing: 10) {
+            // Avatar
+            Image(systemName: "person.circle.fill")
+                .font(.system(size: 28))
+                .foregroundStyle(Color.somLimeSystemGray)
+
+            VStack(alignment: .leading, spacing: 4) {
+                // Name + time
+                HStack(alignment: .firstTextBaseline) {
+                    Text(comment.userName)
+                        .font(.hanSansNeoBold(size: 13))
+                        .foregroundStyle(Color.somLimeLabel)
+
+                    Text(comment.publishedTime)
+                        .font(.hanSansNeoLight(size: 11))
+                        .foregroundStyle(.tertiary)
+                }
+
+                // Body
+                Text(comment.text)
+                    .font(.hanSansNeoRegular(size: 14))
+                    .foregroundStyle(Color.somLimeLabel)
+                    .lineSpacing(3)
             }
-            Text(comment.text)
-                .font(.hanSansNeoRegular(size: 14))
-                .foregroundColor(.somLimeLabel)
         }
-        .padding(.horizontal)
-        .padding(.vertical, 8)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
     }
 }
 

@@ -50,47 +50,72 @@ final class HomeViewModelImpl: HomeViewModel {
     }
 
     func loadTrends() async {
+        Log.vm.debug("HomeViewModel.loadTrends: start")
         do {
             let data = try await realTimeRepo.getLimeTrendsData()
             trends = data.map { SomeLimeTrends(list: $0.trendsList) }
+            Log.vm.debug("HomeViewModel.loadTrends: success — \(self.trends?.list.count ?? 0) trends")
         } catch {
+            Log.vm.error("HomeViewModel.loadTrends: failed — \(error)")
             errorMessage = "트렌드를 불러올 수 없습니다"
         }
     }
 
     func loadUserTypeName() async {
+        Log.vm.debug("HomeViewModel.loadUserTypeName: start")
         do {
             let profile = try await userRepo.getUserData()
             userTypeName = profile.map { UserLimeTypeName(name: $0.personalityType) }
+            Log.vm.debug("HomeViewModel.loadUserTypeName: success — \(self.userTypeName?.name ?? "nil")")
         } catch {
+            Log.vm.error("HomeViewModel.loadUserTypeName: failed — \(error)")
             errorMessage = "사용자 정보를 불러올 수 없습니다"
         }
     }
 
     func loadUserStatus() async {
+        Log.vm.debug("HomeViewModel.loadUserStatus: start")
         let loggedIn = (try? await userRepo.isUserLoggedIn()) ?? false
         userStatus = UserStatus(isLoggedIn: loggedIn)
+        Log.vm.debug("HomeViewModel.loadUserStatus: isLoggedIn=\(loggedIn)")
+
+        // Ensure Users/{uid} document exists for legacy accounts
+        if loggedIn {
+            let profile = try? await userRepo.getUserData()
+            if profile == nil, let email = authRepo.currentUserEmail {
+                Log.vm.info("HomeViewModel.loadUserStatus: creating missing user document")
+                try? await userRepo.createInitialProfile(email: email)
+            }
+        }
     }
 
     func loadMyLimeRoomPostsList(limeRoomName: String) async {
+        Log.vm.debug("HomeViewModel.loadMyLimeRoomPostsList: board=\(limeRoomName)")
         do {
-            guard let data = try await boardRepo.getBoardPostMetaList(boardName: limeRoomName, startTime: "NaN", counts: 5) else { return }
+            guard let data = try await boardRepo.getBoardPostMetaList(boardName: limeRoomName, startTime: nil, counts: 5) else { return }
             let list = data.map { LimeRoomPostMeta(userID: $0.userID, userName: $0.userName, title: $0.postTitle, views: $0.numberOfViews, publishedTime: $0.publishedTime, numOfVotes: $0.numberOfVoteUps, numOfComments: $0.numberOfComments, numOfViews: $0.numberOfViews, postID: $0.postID, boardPostTap: $0.boardTap, boardName: $0.boardID) }
             myLimeRoomPostList = LimeRoomPostList(list: list)
+            Log.vm.debug("HomeViewModel.loadMyLimeRoomPostsList: success — \(list.count) posts")
         } catch {
+            Log.vm.error("HomeViewModel.loadMyLimeRoomPostsList: failed — \(error)")
             errorMessage = "게시글을 불러올 수 없습니다"
         }
     }
 
     func loadLimeRoomList() async {
-        limeRoomList = LimeRoomList(list: SomeLiMePTTypeDesc.typeDetail.keys.sorted())
+        Log.vm.debug("HomeViewModel.loadLimeRoomList: start")
+        limeRoomList = LimeRoomList(list: BoardRegistry.allBoards)
+        Log.vm.debug("HomeViewModel.loadLimeRoomList: loaded \(self.limeRoomList?.list.count ?? 0) rooms")
     }
 
     func loadPsyTestList() async {
+        Log.vm.debug("HomeViewModel.loadPsyTestList: start")
         psyTestList = PsyTestList(list: SomeLiMePTTypeDesc.typeDetail.keys.sorted())
+        Log.vm.debug("HomeViewModel.loadPsyTestList: loaded \(self.psyTestList?.list.count ?? 0) tests")
     }
 
     func refreshUserStatus() async {
+        Log.vm.debug("HomeViewModel.refreshUserStatus: start")
         try? await authRepo.reloadCurrentUser()
         await loadUserStatus()
     }

@@ -19,6 +19,7 @@ struct UserCurrentPostsScreen: View {
                     Image(systemName: "chevron.left")
                         .foregroundColor(.somLimeLabel)
                 }
+                .accessibilityLabel("뒤로 가기")
                 Spacer()
                 Text("My Posts")
                     .font(.hanSansNeoBold(size: 18))
@@ -71,6 +72,9 @@ struct UserCurrentPostsScreen: View {
                             Divider().padding(.leading)
                         }
                     }
+                }
+                .refreshable {
+                    await vm?.loadPosts()
                 }
             } else {
                 Spacer()
